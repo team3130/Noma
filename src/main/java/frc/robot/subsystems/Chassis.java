@@ -115,36 +115,16 @@ public class Chassis extends SubsystemBase {
   }
 
   public double moveSpeed(){
-    if (getJoystickName().equals("Logitech Extreme 3D")){
       return -RobotContainer.m_Gamepad.getRawAxis(1) * movingScalar();
-    }
-    else if (getJoystickName().equals("Controller (Xbox One For Windows)")){
-      return  -RobotContainer.m_Gamepad.getRawAxis(1); //joystick up axis value (inverted)
-    }
-    else return 0;
   }
   public double turnSpeed(){
-    if (getJoystickName().equals("Logitech Extreme 3D")){
       return -RobotContainer.m_Gamepad.getRawAxis(2) * turningScalar();
     }
-    else if (getJoystickName().equals("Controller (Xbox One For Windows)")){
-      return  -RobotContainer.m_Gamepad.getRawAxis(4);
-    }
-    else return 0;
   }
 
-  public String getJoystickName(){
-    return DriverStation.getJoystickName(0);
-  }
   @Override
   public void initSendable(SendableBuilder builder) {// outputs to shuffleboard in a way that can be update-able in real time (many of these can be removed after testing)
-    builder.addDoubleProperty("Navx rotation", this::getNavxRotation, null);
     //builder.addVariableTypeProperty("name to display", this:getter, if you want it to be editable-> this::setter else -> null);
-    builder.addDoubleProperty("Goal Rotation", this::getGoalAngle, this::setGoalAngle);
-    builder.addDoubleProperty("Spinny P", this::getSpinnyP, this::setSpinnyP);
-    builder.addDoubleProperty("Spinny I", this::getSpinnyI, this::setSpinnyI);
-    builder.addDoubleProperty("Spinny D", this::getSpinnyD, this::setSpinnyD);
-
     builder.addStringProperty("Controller Type", this::getJoystickName, null);
   }
 
