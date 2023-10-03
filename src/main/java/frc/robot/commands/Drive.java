@@ -9,16 +9,12 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Chassis;
-import frc.robot.subsystems.ExampleSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class Drive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Chassis m_chassis;
   private final RobotContainer m_robotContainer;
-  private double moveSpeed;
-  private double turnSpeed;
-
 
   /**
    * Creates a new ExampleCommand.
@@ -41,7 +37,7 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_chassis.driveArcade(m_chassis.moveSpeed(), m_chassis.turnSpeed(), true); //method to drive
+    m_chassis.driveArcade(-RobotContainer.m_Gamepad.getRawAxis(1), -RobotContainer.m_Gamepad.getRawAxis(2), true); //method to drive
   }
 
   // Called once the command ends or is interrupted.

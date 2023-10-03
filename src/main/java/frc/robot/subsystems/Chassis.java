@@ -116,27 +116,6 @@ public class Chassis extends SubsystemBase {
 
   }
 
-  public double movingScalar(){
-    double x = -RobotContainer.m_Gamepad.getRawAxis(3);
-    double y = ((x+1)/2) * 1.5; // taking slider return from [-1,1] to [0,1] and then scaling it up to enable real ue of more of its range
-    if (y>1){
-      return 1;} //eliminating values>1
-    if(y<0.6){
-      return 0.6;}
-    else return y;
-  }
-
-  public double turningScalar(){
-    return movingScalar() * 0.9;
-  }
-
-  public double moveSpeed(){
-      return -RobotContainer.m_Gamepad.getRawAxis(1) * movingScalar();
-  }
-  public double turnSpeed(){
-      return -RobotContainer.m_Gamepad.getRawAxis(2) * turningScalar();
-    }
-
   @Override
   public void periodic() {
     // This built-in method will be called once per scheduler run

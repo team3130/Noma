@@ -22,9 +22,6 @@ public final class Constants {
   public static boolean all = false;
 
   public static class CAN {
-    public static final int SHOOTERFLYWHEEL = 6;
-    public static final int LEFTINDEXER = 7;
-    public static final int RIGHTINDEXER = 8;
     public static final int frontLeftDrive = 2; // TO-DO
     public static final int frontRightDrive = 3; // TO-DO
     public static final int backLeftDrive = 4; // TO-DO
