@@ -19,6 +19,8 @@ import frc.robot.sensors.Navx;
 
 import java.util.function.Consumer;
 
+import java.util.function.Consumer;
+
 public class Chassis extends SubsystemBase {
   public String joystickName = DriverStation.getJoystickName(0);
   private final WPI_TalonFX m_frontLeftDrive; //front left drivetrain motor
@@ -114,19 +116,26 @@ public class Chassis extends SubsystemBase {
 
   }
 
+  public double movingScalar(){
+    double x = -RobotContainer.m_Gamepad.getRawAxis(3);
+    double y = ((x+1)/2) * 1.5; // taking slider return from [-1,1] to [0,1] and then scaling it up to enable real ue of more of its range
+    if (y>1){
+      return 1;} //eliminating values>1
+    if(y<0.6){
+      return 0.6;}
+    else return y;
+  }
+
+  public double turningScalar(){
+    return movingScalar() * 0.9;
+  }
+
   public double moveSpeed(){
       return -RobotContainer.m_Gamepad.getRawAxis(1) * movingScalar();
   }
   public double turnSpeed(){
       return -RobotContainer.m_Gamepad.getRawAxis(2) * turningScalar();
     }
-  }
-
-  @Override
-  public void initSendable(SendableBuilder builder) {// outputs to shuffleboard in a way that can be update-able in real time (many of these can be removed after testing)
-    //builder.addVariableTypeProperty("name to display", this:getter, if you want it to be editable-> this::setter else -> null);
-    builder.addStringProperty("Controller Type", this::getJoystickName, null);
-  }
 
   @Override
   public void periodic() {
