@@ -117,6 +117,7 @@ public class Chassis extends SubsystemBase {
   public double moveSpeed(){
       return -RobotContainer.m_Gamepad.getRawAxis(1) * movingScalar();
   }
+  
   public double turnSpeed(){
       return -RobotContainer.m_Gamepad.getRawAxis(2) * turningScalar();
     }
