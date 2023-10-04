@@ -114,21 +114,6 @@ public class Chassis extends SubsystemBase {
 
   }
 
-  public double moveSpeed(){
-      return -RobotContainer.m_Gamepad.getRawAxis(1) * movingScalar();
-  }
-  
-  public double turnSpeed(){
-      return -RobotContainer.m_Gamepad.getRawAxis(2) * turningScalar();
-    }
-  }
-
-  @Override
-  public void initSendable(SendableBuilder builder) {// outputs to shuffleboard in a way that can be update-able in real time (many of these can be removed after testing)
-    //builder.addVariableTypeProperty("name to display", this:getter, if you want it to be editable-> this::setter else -> null);
-    builder.addStringProperty("Controller Type", this::getJoystickName, null);
-  }
-
   @Override
   public void periodic() {
     // This built-in method will be called once per scheduler run
