@@ -50,7 +50,6 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     m_chassis.setDefaultCommand(new Drive(m_chassis, this));
-
     m_RotaryArm = new RotaryArm();
     m_extension.setDefaultCommand(new ExtensionExtend(m_extension,this));
   }
@@ -75,7 +74,7 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
     new JoystickButton(m_weaponsGamepad, 2).whenPressed(new ToggleRotary(getRotaryArm()));
   }
