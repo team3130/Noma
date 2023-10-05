@@ -7,11 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.Drive;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.ExtensionExtend;
+import frc.robot.commands.*;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,6 +36,7 @@ public class RobotContainer {
   private final XboxController m_weaponsGamepad;
 
   private final RotaryArm m_RotaryArm;
+
 
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -71,6 +70,7 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
+    new JoystickButton(m_WeaponsGamepad, 2).whileTrue(new AutoZeroExtensionArm(m_extension));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
