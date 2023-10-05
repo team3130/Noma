@@ -105,6 +105,11 @@ public final class Constants {
     }
   }
 
+  public static class RotaryArm {
+    public static final int CAN_PNM = 0; // TODO
+    public static final int PNM_Rotary = 0; // TODO
+  }
+
   public static class Shooter {
     //Constants for Shooter
   }
