@@ -5,15 +5,23 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.IntakeCone;
+import frc.robot.commands.IntakeCube;
+import frc.robot.commands.OuttakeCone;
+import frc.robot.commands.OuttakeCube;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Drive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Manipulator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.Manipulator;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -27,6 +35,9 @@ public class RobotContainer {
   private final Chassis m_chassis = new Chassis();
   public static Joystick m_Gamepad = new Joystick(0);
 
+  private final XboxController m_weaponsGamepad;
+
+  private final Manipulator m_manipulator;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -34,9 +45,18 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    m_weaponsGamepad = new XboxController(1);
+
     // Configure the trigger bindings
     configureBindings();
     m_chassis.setDefaultCommand(new Drive(m_chassis, this));
+
+    m_manipulator = new Manipulator();
+  }
+
+  public Manipulator getManipulator() {
+    return m_manipulator;
   }
 
   /**
@@ -56,6 +76,11 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    new JoystickButton(m_weaponsGamepad, 3).whileTrue(new IntakeCone(getManipulator()));
+    new JoystickButton(m_weaponsGamepad, 4).whileTrue(new IntakeCube(getManipulator()));
+    new JoystickButton(m_weaponsGamepad, 5).whileTrue(new OuttakeCone(getManipulator()));
+    new JoystickButton(m_weaponsGamepad, 6).whileTrue(new OuttakeCube(getManipulator()));
   }
 
   /**
