@@ -5,51 +5,42 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExtensionArm;
 
 /** An example command that uses an example subsystem. */
-public class ExtensionExtend extends CommandBase {
+public class AutoZeroExtensionArm extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ExtensionArm m_ExtensionArm;
-  private final RobotContainer m_robotContainer;
+  private final ExtensionArm m_extensionArm;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ExtensionExtend(ExtensionArm subsystem, RobotContainer container) {
-    m_ExtensionArm = subsystem;
-    m_robotContainer = container;
+  public AutoZeroExtensionArm(ExtensionArm subsystem) {
+    m_extensionArm = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_extensionArm.Extension(-1);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
-    if (Constants.Extension.kExtensionDeadband >= Math.abs(y)){
-      y = 0;
-    }
-    if (m_ExtensionArm.LimitSwitch() && y <= 0){
-      y = 0;
-    }
-    if (m_ExtensionArm.getPosition() >= Constants.Extension.maxExtensionTicks && y>=0) {
-      y = 0;
-    }
-    m_ExtensionArm.Extension(y);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_extensionArm.stop();
+    if (!interrupted) {
+      m_extensionArm.resetEncoders();
+    }
+  }
 
   // Returns true when the command should end.
   @Override

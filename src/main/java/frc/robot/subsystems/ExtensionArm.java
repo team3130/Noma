@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,11 +22,15 @@ public class ExtensionArm extends SubsystemBase {
 
   private final MotorControllerGroup m_extensionMotors;
 
+  private final DigitalInput m_limitSwitch;
+
 
   /** Creates a new ExampleSubsystem. */
   public ExtensionArm() {
     m_leftMotor = new WPI_TalonFX(Constants.CAN.leftMotor);
     m_rightMotor = new WPI_TalonFX(Constants.CAN.rightMotor);
+
+    m_limitSwitch = new DigitalInput(CAN.limitSwitch);
 
     m_rightMotor.configFactoryDefault();
     m_leftMotor.configFactoryDefault();
@@ -43,6 +48,8 @@ public class ExtensionArm extends SubsystemBase {
 
     m_leftMotor.setNeutralMode(NeutralMode.Brake);
     m_rightMotor.setNeutralMode(NeutralMode.Brake);
+
+
   }
 
   /**
@@ -68,11 +75,28 @@ public class ExtensionArm extends SubsystemBase {
     // Query some boolean state, such as a digital sensor.
     return false;
   }
-public void Extension(double speed){
+
+  public boolean LimitSwitch(){
+    return m_limitSwitch.get();
+  }
+
+  public double getPosition(){
+    return m_leftMotor.getSelectedSensorPosition();
+  }
+
+  public void Extension(double speed){
 
     m_rightMotor.set(ControlMode.PercentOutput, speed);
     m_leftMotor.set(ControlMode.PercentOutput, speed);
 }
+  public void stop(){
+    m_rightMotor.set(ControlMode.PercentOutput,0);
+    m_leftMotor.set(ControlMode.PercentOutput,0);
+  }
+  public void resetEncoders(){
+    m_leftMotor.setSelectedSensorPosition(0);
+    m_rightMotor.setSelectedSensorPosition(0);
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
