@@ -27,10 +27,15 @@ public final class Constants {
     public static final int backLeftDrive = 4; // TO-DO
     public static final int backRightDrive = 5; // TO-DO
 
+    public static final int leftMotor = 6;//TO-DO
+    public static final int rightMotor = 7;//TO-DO
+
     public static final int Intake_Motor = 9; // TO-DO
 
     public static final int PCM = 0;
     public static final int PDP = 1;
+
+    public static final int limitSwitch = 0;
   }
 
   public static class OperatorConstants {
@@ -83,7 +88,7 @@ public final class Constants {
     public static final int gearRatio = 0; // TODO
     public static final int wheelDiameter = 0; // TODO
 
-    public static final int kDriveDeadband = 0; // TODO
+    public static final double kDriveDeadband = 0.05; // TODO
 
     public static final int kEncoderResolution = 0; // TODO
     public static final int kChassisGearRatio = 0; // TODO
@@ -105,6 +110,11 @@ public final class Constants {
     }
   }
 
+  public static class Extension {
+    public static final int maxVoltage = 8;
+    public static final int maxExtensionTicks = 100;
+    public static final double kExtensionDeadband = 0.05;
+  }
   public static class Shooter {
     //Constants for Shooter
   }
