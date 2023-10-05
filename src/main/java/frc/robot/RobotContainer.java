@@ -14,6 +14,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.RotaryArm;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -27,6 +28,10 @@ public class RobotContainer {
   private final Chassis m_chassis = new Chassis();
   public static Joystick m_Gamepad = new Joystick(0);
 
+  private final XboxController m_weaponsGamepad;
+
+  private final RotaryArm m_RotaryArm;
+
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -34,9 +39,18 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    m_weaponsGamepad = new XboxController(1);
+
     // Configure the trigger bindings
     configureBindings();
     m_chassis.setDefaultCommand(new Drive(m_chassis, this));
+
+    m_RotaryArm = new RotaryArm();
+  }
+
+  public RotaryArm getRotaryArm() {
+    return m_RotaryArm;
   }
 
   /**
@@ -56,6 +70,8 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    new JoystickButton(m_weaponsGamepad, 2).whenPressed(new ToggleRotary(getRotaryArm()));
   }
 
   /**
