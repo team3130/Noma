@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
@@ -15,6 +17,8 @@ import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.RotaryArm;
+import frc.robot.commands.ToggleRotary;
 import frc.robot.subsystems.ExtensionArm;
 
 /**
@@ -31,15 +35,28 @@ public class RobotContainer {
   public static Joystick m_DriverGamepad = new Joystick(0);
   public static Joystick m_WeaponsGamepad = new Joystick(1);
 
+  private final XboxController m_weaponsGamepad;
+
+  private final RotaryArm m_RotaryArm;
+
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    m_weaponsGamepad = new XboxController(1);
+
     // Configure the trigger bindings
     configureBindings();
     m_chassis.setDefaultCommand(new Drive(m_chassis, this));
+
+    m_RotaryArm = new RotaryArm();
     m_extension.setDefaultCommand(new ExtensionExtend(m_extension,this));
+  }
+
+  public RotaryArm getRotaryArm() {
+    return m_RotaryArm;
   }
 
   /**
@@ -58,6 +75,9 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
+    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    new JoystickButton(m_weaponsGamepad, 2).whenPressed(new ToggleRotary(getRotaryArm()));
   }
 
   /**

@@ -110,6 +110,11 @@ public final class Constants {
     }
   }
 
+  public static class RotaryArm {
+    public static final int CAN_PNM = 0; // TODO
+    public static final int PNM_Rotary = 0; // TODO
+  }
+
   public static class Extension {
     public static final int maxVoltage = 8;
     public static final int maxExtensionTicks = 100;
