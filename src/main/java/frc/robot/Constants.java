@@ -27,6 +27,9 @@ public final class Constants {
     public static final int backLeftDrive = 4; // TO-DO
     public static final int backRightDrive = 5; // TO-DO
 
+    public static final int leftMotor = 6;//TO-DO
+    public static final int rightMotor = 7;//TO-DO
+
     public static final int Intake_Motor = 9; // TO-DO
 
     public static final int PCM = 0;
@@ -105,6 +108,9 @@ public final class Constants {
     }
   }
 
+  public static class Extension {
+    public static final int maxVoltage = 8;
+  }
   public static class Shooter {
     //Constants for Shooter
   }
