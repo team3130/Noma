@@ -75,6 +75,10 @@ public final class Constants {
     public static final int LST_AXS_RJOYSTICKY = 5;
   }
 
+  public static class Manipulator {
+    public static final int CAN_manipulatorMotor = 0; // TODO
+  }
+
   public static class Chassis {
     //Constants for Chassis
     public static final int maxVoltage = 8; // TODO
