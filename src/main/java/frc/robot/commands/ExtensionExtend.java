@@ -14,6 +14,7 @@ public class ExtensionExtend extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ExtensionArm m_ExtensionArm;
   private final RobotContainer m_robotContainer;
+  private final double extensionFactor = 0.0;
 
   /**
    * Creates a new ExampleCommand.
@@ -29,22 +30,45 @@ public class ExtensionExtend extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if(m_ExtensionArm.LimitSwitch()){
+      m_ExtensionArm.resetEncoders();
+      m_ExtensionArm.setZeroed(true);
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
-    if (Constants.Extension.kExtensionDeadband >= Math.abs(y)){
-      y = 0;
+    if(m_ExtensionArm.isZeroed()){
+      m_ExtensionArm.resetEncoders();
+      double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
+      if (Constants.Extension.kExtensionDeadband >= Math.abs(y)) {
+        y = 0;
+      }
+      if (m_ExtensionArm.LimitSwitch() && y <= 0) {
+        y = 0;
+      }
+      if (m_ExtensionArm.getPosition() >= Constants.Extension.maxExtensionTicks && y >= 0) {
+        y = 0;
+      }
+      m_ExtensionArm.Extension(y);
+
     }
-    if (m_ExtensionArm.LimitSwitch() && y <= 0){
-      y = 0;
+    else{
+      double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
+      if (Constants.Extension.kExtensionDeadband >= Math.abs(y)) {
+        y = 0;
+      }
+      if (m_ExtensionArm.LimitSwitch() && y <= 0) {
+        y = 0;
+      }
+      if (m_ExtensionArm.getPosition() >= Constants.Extension.maxExtensionTicks && y >= 0) {
+        y = 0;
+      }
+      m_ExtensionArm.Extension(Constants.Extension.slowExtensionSpeed);
     }
-    if (m_ExtensionArm.getPosition() >= Constants.Extension.maxExtensionTicks && y>=0) {
-      y = 0;
-    }
-    m_ExtensionArm.Extension(y);
+
   }
 
   // Called once the command ends or is interrupted.

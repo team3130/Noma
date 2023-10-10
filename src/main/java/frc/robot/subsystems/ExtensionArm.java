@@ -23,6 +23,7 @@ public class ExtensionArm extends SubsystemBase {
   private final MotorControllerGroup m_extensionMotors;
 
   private final DigitalInput m_limitSwitch;
+  private boolean isZeroed = false;
 
 
   /** Creates a new ExampleSubsystem. */
@@ -96,6 +97,12 @@ public class ExtensionArm extends SubsystemBase {
   public void resetEncoders(){
     m_leftMotor.setSelectedSensorPosition(0);
     m_rightMotor.setSelectedSensorPosition(0);
+  }
+  public void setZeroed(boolean b){
+    isZeroed = true;
+  }
+  public boolean isZeroed(){
+    return isZeroed;
   }
   @Override
   public void periodic() {

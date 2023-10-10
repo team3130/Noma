@@ -117,8 +117,11 @@ public final class Constants {
 
   public static class Extension {
     public static final int maxVoltage = 8;
-    public static final int maxExtensionTicks = 100;
+    public static final int maxExtensionTicks = 100; // TO-DO
     public static final double kExtensionDeadband = 0.05;
+    public static final int slowExtensionEndsDistance = 100; // TO-DO
+    public static final int slowExtensionSpeed = 0; // TO-DO
+
   }
   public static class Shooter {
     //Constants for Shooter

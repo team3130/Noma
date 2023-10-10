@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ExtensionArm;
 
 /** An example command that uses an example subsystem. */
@@ -26,12 +27,14 @@ public class AutoZeroExtensionArm extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_extensionArm.Extension(-1);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_extensionArm.Extension(-.25);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -40,11 +43,12 @@ public class AutoZeroExtensionArm extends CommandBase {
     if (!interrupted) {
       m_extensionArm.resetEncoders();
     }
+    m_extensionArm.setZeroed(true);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_extensionArm.LimitSwitch();
   }
 }
