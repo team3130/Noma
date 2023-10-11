@@ -40,7 +40,7 @@ public class ExtensionExtend extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_ExtensionArm.isZeroed()){
+    if (m_ExtensionArm.isZeroed()&&(m_ExtensionArm.slowZone() == 0)){
       m_ExtensionArm.resetEncoders();
       double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
       if (Constants.Extension.kExtensionDeadband >= Math.abs(y)) {

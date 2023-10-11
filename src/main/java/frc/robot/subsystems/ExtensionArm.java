@@ -25,7 +25,6 @@ public class ExtensionArm extends SubsystemBase {
   private final DigitalInput m_limitSwitch;
   private boolean isZeroed = false;
 
-
   /** Creates a new ExampleSubsystem. */
   public ExtensionArm() {
     m_leftMotor = new WPI_TalonFX(Constants.CAN.leftMotor);
@@ -84,6 +83,13 @@ public class ExtensionArm extends SubsystemBase {
   public double getPosition(){
     return m_leftMotor.getSelectedSensorPosition();
   }
+  public double getDistance(){
+    return getPosition() * Constants.Extension.extensionTicksToArmDistance;
+  }
+  public double getSpeed(){
+    int t = 0; // TO-DO
+    return t;
+  }
 
   public void Extension(double speed){
 
@@ -104,6 +110,41 @@ public class ExtensionArm extends SubsystemBase {
   public boolean isZeroed(){
     return isZeroed;
   }
+  public int slowZone(){
+    if(Constants.Extension.maxExtensionTicks-getPosition()<=Constants.Extension.slowExtensionEndsDistance){
+      return 1;
+    }
+    else if(getPosition()<=Constants.Extension.slowExtensionEndsDistance){
+      return -1;
+    }
+    else {
+      return 0;
+    }
+  }
+  public double slowZoneFactor(){
+    // this is where the normalized function blah blah blah goes
+    double factor = 1;
+    double minDistance = Constants.Extension.slowExtensionEndsDistance;
+    double maxDistance = Constants.Extension.maxExtensionTicks;
+    double distance = getPosition();
+    if (distance > minDistance && distance < (maxDistance - minDistance)) {
+      return factor;
+    }
+    else if (distance/maxDistance < .05){
+      if (RobotContainer.m_WeaponsGamepad.getRawAxis(1) <= 0){
+        factor = (getPosition()/Constants.Extension.extensionFactorScalar);
+      }
+      else if (RobotContainer.m_WeaponsGamepad.getRawAxis(1) > 0) {}
+      }
+    else if (distance/maxDistance > .95) {
+      if (RobotContainer.m_WeaponsGamepad.getRawAxis(1) >= 0){
+        factor = ((maxDistance-getPosition())/Constants.Extension.extensionFactorScalar);
+      }
+      else if (RobotContainer.m_WeaponsGamepad.getRawAxis(1) < 0) {}
+    }
+    return factor;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

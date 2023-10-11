@@ -117,10 +117,12 @@ public final class Constants {
 
   public static class Extension {
     public static final int maxVoltage = 8;
-    public static final int maxExtensionTicks = 100; // TO-DO
+    public static final double maxExtensionTicks = 100; // TO-DO
     public static final double kExtensionDeadband = 0.05;
-    public static final int slowExtensionEndsDistance = 100; // TO-DO
+    public static final int slowExtensionEndsDistance = 0; // TO-DO // the distance from the ends of the arm required to start slowing the motor down
     public static final int slowExtensionSpeed = 0; // TO-DO
+    public static final double extensionTicksToArmDistance = 0; // TO-DO // conversion factor from ticks to distance of arm extension
+    public static final double extensionFactorScalar = 5; // TO-DO
 
   }
   public static class Shooter {
