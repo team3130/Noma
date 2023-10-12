@@ -122,7 +122,6 @@ public class ExtensionArm extends SubsystemBase {
     }
   }
   public double slowZoneFactor(){
-    // this is where the normalized function blah blah blah goes
     double factor = 1;
     double minDistance = Constants.Extension.slowExtensionEndsDistance;
     double maxDistance = Constants.Extension.maxExtensionTicks;
