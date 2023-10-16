@@ -15,7 +15,7 @@ public class Manipulator extends SubsystemBase {
 
 
   public Manipulator() {
-    m_manipulatorMotor = new WPI_TalonFX(Constants.Manipulator.CAN_manipulatorMotor);
+    m_manipulatorMotor = new WPI_TalonFX(Constants.CAN.manipulatorMotor);
     m_manipulatorMotor.configFactoryDefault();
     m_manipulatorMotor.setInverted(false);
   }

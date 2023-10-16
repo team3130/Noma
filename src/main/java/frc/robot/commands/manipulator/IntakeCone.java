@@ -2,32 +2,31 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.manipulator;
 
-import frc.robot.subsystems.RotaryArm;
+import frc.robot.subsystems.Manipulator;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 
 /** An example command that uses an example subsystem. */
-public class ToggleRotary extends CommandBase {
+public class IntakeCone extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final RotaryArm m_rotaryArm;
+  private final Manipulator m_manipulator;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ToggleRotary(RotaryArm rotaryArm) {
-    m_rotaryArm = rotaryArm;
+  public IntakeCone(Manipulator manipulator) {
+    m_manipulator = manipulator;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(rotaryArm);
+    addRequirements(manipulator);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_rotaryArm.toggle();
+    m_manipulator.setSpeed(0); // TODO: set speed value negative or positive
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,7 +35,9 @@ public class ToggleRotary extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_manipulator.setSpeed(0);
+  }
 
   // Returns true when the command should end.
   @Override
