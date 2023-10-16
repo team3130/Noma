@@ -8,16 +8,29 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+<<<<<<< HEAD
+=======
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.IntakeCone;
+import frc.robot.commands.IntakeCube;
+import frc.robot.commands.OuttakeCone;
+import frc.robot.commands.OuttakeCube;
+>>>>>>> manipulator
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Manipulator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+<<<<<<< HEAD
 import frc.robot.subsystems.RotaryArm;
 import frc.robot.commands.ToggleRotary;
 import frc.robot.subsystems.ExtensionArm;
+=======
+import frc.robot.subsystems.Manipulator;
+>>>>>>> manipulator
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -35,9 +48,9 @@ public class RobotContainer {
 
   private final XboxController m_weaponsGamepad;
 
-  private final RotaryArm m_RotaryArm;
+  private final XboxController m_weaponsGamepad;
 
-
+  private final Manipulator m_manipulator;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
 
@@ -49,12 +62,15 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     m_chassis.setDefaultCommand(new Drive(m_chassis, this));
+<<<<<<< HEAD
     m_RotaryArm = new RotaryArm();
     m_extension.setDefaultCommand(new ExtensionExtend(m_extension,this));
   }
 
-  public RotaryArm getRotaryArm() {
-    return m_RotaryArm;
+
+  public Manipulator getManipulator() {
+    return m_manipulator;
+>>>>>>> manipulator
   }
 
   /**
@@ -76,7 +92,12 @@ public class RobotContainer {
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    new JoystickButton(m_weaponsGamepad, 2).whenPressed(new ToggleRotary(getRotaryArm()));
+    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    new JoystickButton(m_weaponsGamepad, 3).whileTrue(new IntakeCone(getManipulator()));
+    new JoystickButton(m_weaponsGamepad, 4).whileTrue(new IntakeCube(getManipulator()));
+    new JoystickButton(m_weaponsGamepad, 5).whileTrue(new OuttakeCone(getManipulator()));
+    new JoystickButton(m_weaponsGamepad, 6).whileTrue(new OuttakeCube(getManipulator()));
   }
 
   /**

@@ -30,7 +30,10 @@ public final class Constants {
     public static final int leftMotor = 6;//TO-DO
     public static final int rightMotor = 7;//TO-DO
 
-    public static final int Intake_Motor = 9; // TO-DO
+    public static final int intakeMotor = 9; // TO-DO
+    public static final int manipulatorMotor = 0; // TODO
+
+
 
     public static final int PCM = 0;
     public static final int PDP = 1;
@@ -80,6 +83,7 @@ public final class Constants {
     public static final int LST_AXS_RJOYSTICKY = 5;
   }
 
+
   public static class Chassis {
     //Constants for Chassis
     public static final int maxVoltage = 8; // TODO
@@ -100,20 +104,9 @@ public final class Constants {
 
     public static final boolean kNavxReversed = false; // TODO
 
-    public static class CAN {
-      //CAN IDs for Chassis
-      //All CAN IDs for Bot
-      public static final int frontLeftDrive = 2; // TO-DO
-      public static final int frontRightDrive = 3; // TO-DO
-      public static final int backLeftDrive = 4; // TO-DO
-      public static final int backRightDrive = 5; // TO-DO
-    }
+   
   }
 
-  public static class RotaryArm {
-    public static final int CAN_PNM = 0; // TODO
-    public static final int PNM_Rotary = 0; // TODO
-  }
 
   public static class Extension {
     public static final int maxVoltage = 8;
