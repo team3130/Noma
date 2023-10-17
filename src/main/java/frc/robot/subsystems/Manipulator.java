@@ -22,7 +22,9 @@ public class Manipulator extends SubsystemBase {
   }
 
   public void Manipulate (double speed){
-    m_manipulatorMotor.set(ControlMode.PercentOutput, speed);
+      /** "speed" is perf to make an actual variable (rather than a parameter) and export in shuffleboard -Giorgia*/
+
+      m_manipulatorMotor.set(ControlMode.PercentOutput, speed);
      }
  public void StopManipulator (){
     m_manipulatorMotor.set(ControlMode.PercentOutput, 0); }

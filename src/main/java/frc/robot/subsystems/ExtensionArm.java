@@ -25,7 +25,6 @@ public class ExtensionArm extends SubsystemBase {
   private final DigitalInput m_limitSwitch;
   private boolean isZeroed = false;
 
-  /** Creates a new ExampleSubsystem. */
   public ExtensionArm() {
     m_leftMotor = new WPI_TalonFX(Constants.CAN.leftMotor);
     m_rightMotor = new WPI_TalonFX(Constants.CAN.rightMotor);
@@ -78,13 +77,10 @@ public class ExtensionArm extends SubsystemBase {
 
   public boolean LimitSwitch(){
     return m_limitSwitch.get();
-    /** perf to export in shuffleboard -Giorgia*/
   }
 
   public double getPosition(){
     return m_leftMotor.getSelectedSensorPosition();
-    /** perf to export in shuffleboard -Giorgia*/
-
   }
   public double getDistance(){
     return getPosition() * Constants.Extension.extensionTicksToArmDistance;
