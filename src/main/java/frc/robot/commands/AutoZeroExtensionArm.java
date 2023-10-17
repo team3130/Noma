@@ -26,7 +26,7 @@ public class AutoZeroExtensionArm extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_extensionArm.Extension(-1);
+    m_extensionArm.moveExtensionArm(-1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,7 +36,7 @@ public class AutoZeroExtensionArm extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_extensionArm.stop();
+    m_extensionArm.stopExtensionArm();
     if (!interrupted) {
       m_extensionArm.resetEncoders();
     }

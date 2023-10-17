@@ -49,31 +49,7 @@ public class ExtensionArm extends SubsystemBase {
     m_leftMotor.setNeutralMode(NeutralMode.Brake);
     m_rightMotor.setNeutralMode(NeutralMode.Brake);
 
-
-  }
-
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public CommandBase exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
-
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
+    m_leftMotor.follow(m_rightMotor);
   }
 
   public boolean LimitSwitch(){
@@ -84,17 +60,13 @@ public class ExtensionArm extends SubsystemBase {
     return m_leftMotor.getSelectedSensorPosition();
   }
 
-  public void Extension(double speed){
-
+  public void moveExtensionArm(double speed){
     m_rightMotor.set(ControlMode.PercentOutput, speed);
-    m_leftMotor.set(ControlMode.PercentOutput, speed);
 }
-  public void stop(){
-    m_rightMotor.set(ControlMode.PercentOutput,0);
-    m_leftMotor.set(ControlMode.PercentOutput,0);
+  public void stopExtensionArm(){
+    m_rightMotor.set(ControlMode.PercentOutput, 0);
   }
   public void resetEncoders(){
-    m_leftMotor.setSelectedSensorPosition(0);
     m_rightMotor.setSelectedSensorPosition(0);
   }
   @Override

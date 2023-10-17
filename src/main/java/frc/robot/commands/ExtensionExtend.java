@@ -41,10 +41,10 @@ public class ExtensionExtend extends CommandBase {
     if (m_ExtensionArm.LimitSwitch() && y <= 0){
       y = 0;
     }
-    if (m_ExtensionArm.getPosition() >= Constants.Extension.maxExtensionTicks && y>=0) {
+    if (m_ExtensionArm.getPosition() >= Constants.Extension.maxExtensionTicks && y >= 0) {
       y = 0;
     }
-    m_ExtensionArm.Extension(y);
+    m_ExtensionArm.moveExtensionArm(y);
   }
 
   // Called once the command ends or is interrupted.
@@ -53,7 +53,5 @@ public class ExtensionExtend extends CommandBase {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    return false;
-  }
+  public boolean isFinished() {return false;}
 }
