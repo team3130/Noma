@@ -33,15 +33,14 @@ public class ExtensionExtend extends CommandBase {
   public void initialize() {
     if(m_ExtensionArm.LimitSwitch()){
       m_ExtensionArm.resetEncoders();
-      m_ExtensionArm.setZeroed(true);
+      m_ExtensionArm.setZeroed();
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_ExtensionArm.isZeroed()&&(m_ExtensionArm.slowZone() == 0)){
-      m_ExtensionArm.resetEncoders();
+    if (m_ExtensionArm.inSlowZone()){
       double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
       if (Constants.Extension.kExtensionDeadband >= Math.abs(y)) {
         y = 0;
@@ -66,7 +65,7 @@ public class ExtensionExtend extends CommandBase {
       if (m_ExtensionArm.getPosition() >= Constants.Extension.maxExtensionTicks && y >= 0) {
         y = 0;
       }
-      m_ExtensionArm.Extension(Constants.Extension.slowExtensionSpeed);
+      m_ExtensionArm.Extension(y);
     }
 
   }

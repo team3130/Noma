@@ -104,21 +104,18 @@ public class ExtensionArm extends SubsystemBase {
     m_leftMotor.setSelectedSensorPosition(0);
     m_rightMotor.setSelectedSensorPosition(0);
   }
-  public void setZeroed(boolean b){
+  public void setZeroed(){
     isZeroed = true;
   }
   public boolean isZeroed(){
     return isZeroed;
   }
-  public int slowZone(){
-    if(Constants.Extension.maxExtensionTicks-getPosition()<=Constants.Extension.slowExtensionEndsDistance){
-      return 1;
-    }
-    else if(getPosition()<=Constants.Extension.slowExtensionEndsDistance){
-      return -1;
+  public boolean inSlowZone(){
+    if((getPosition()<=Constants.Extension.slowExtensionEndsDistance)&&(Constants.Extension.maxExtensionTicks-getPosition()<=Constants.Extension.slowExtensionEndsDistance)){
+      return false;
     }
     else {
-      return 0;
+      return true;
     }
   }
   public double slowZoneFactor(){

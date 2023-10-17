@@ -43,7 +43,7 @@ public class AutoZeroExtensionArm extends CommandBase {
     if (!interrupted) {
       m_extensionArm.resetEncoders();
     }
-    m_extensionArm.setZeroed(true);
+    m_extensionArm.setZeroed();
   }
 
   // Returns true when the command should end.
