@@ -27,6 +27,7 @@ public class IntakeCube extends CommandBase {
   @Override
   public void execute() {
     m_manipulator.Manipulate(-1);
+    /** where -1 is rn would be a great variable to output to shuffleboard*/
   }
 
   // Called once the command ends or is interrupted.

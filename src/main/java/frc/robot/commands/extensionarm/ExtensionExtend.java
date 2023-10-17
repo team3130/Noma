@@ -38,6 +38,7 @@ public class ExtensionExtend extends CommandBase {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
+  /** try to downsize some conditions to seperate methods in your subsystem -Giorgia*/
   @Override
   public void execute() {
     if (m_ExtensionArm.inSlowZone()){

@@ -78,10 +78,13 @@ public class ExtensionArm extends SubsystemBase {
 
   public boolean LimitSwitch(){
     return m_limitSwitch.get();
+    /** perf to export in shuffleboard -Giorgia*/
   }
 
   public double getPosition(){
     return m_leftMotor.getSelectedSensorPosition();
+    /** perf to export in shuffleboard -Giorgia*/
+
   }
   public double getDistance(){
     return getPosition() * Constants.Extension.extensionTicksToArmDistance;
@@ -92,7 +95,6 @@ public class ExtensionArm extends SubsystemBase {
   }
 
   public void Extension(double speed){
-
     m_rightMotor.set(ControlMode.PercentOutput, speed);
     m_leftMotor.set(ControlMode.PercentOutput, speed);
 }
@@ -119,6 +121,7 @@ public class ExtensionArm extends SubsystemBase {
     }
   }
   public double slowZoneFactor(){
+    /** try to downsize some conditions to seperate methods -Giorgia*/
     double factor = 1;
     double minDistance = Constants.Extension.slowExtensionEndsDistance;
     double maxDistance = Constants.Extension.maxExtensionTicks;
