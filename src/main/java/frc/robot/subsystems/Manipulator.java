@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -20,10 +21,11 @@ public class Manipulator extends SubsystemBase {
     m_manipulatorMotor.setInverted(false);
   }
 
-  public void setSpeed(double x) {
-    m_manipulatorMotor.set(x);
-  }
-
+  public void Manipulate (double speed){
+    m_manipulatorMotor.set(ControlMode.PercentOutput, speed);
+     }
+ public void StopManipulator (){
+    m_manipulatorMotor.set(ControlMode.PercentOutput, 0); }
   @Override
   public void periodic() {
 
