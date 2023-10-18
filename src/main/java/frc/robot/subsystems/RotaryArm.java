@@ -29,10 +29,10 @@ public class RotaryArm extends SubsystemBase {
   /**
    * Toggles the pnumatic for the pistons
    */
-  public void toggle(){
+  public void toggle() {
     m_solenoid.toggle();
   }
-
+  
   /**
    * Extends the pneumatic (opposite of retracted which we are saying is the default state)
    */
