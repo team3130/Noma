@@ -8,6 +8,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -24,7 +28,9 @@ public class ExtensionArm extends SubsystemBase {
 
   private final DigitalInput m_limitSwitch;
   private boolean isZeroed = false;
-
+  public static double slowExtensionEndsDistance = 0;
+  public static double extensionFactorScalar = 5;
+  /** Creates a new ExampleSubsystem. */
   public ExtensionArm() {
     m_leftMotor = new WPI_TalonFX(Constants.CAN.leftMotor);
     m_rightMotor = new WPI_TalonFX(Constants.CAN.rightMotor);
@@ -47,8 +53,6 @@ public class ExtensionArm extends SubsystemBase {
 
     m_leftMotor.setNeutralMode(NeutralMode.Brake);
     m_rightMotor.setNeutralMode(NeutralMode.Brake);
-
-
   }
 
   /**
@@ -80,20 +84,15 @@ public class ExtensionArm extends SubsystemBase {
   }
 
   public double getPosition(){
-    return m_leftMotor.getSelectedSensorPosition();
-  }
-  public double getDistance(){
-    return getPosition() * Constants.Extension.extensionTicksToArmDistance;
+    return m_leftMotor.getSelectedSensorPosition() * Constants.Extension.extensionTicksToArmDistance;
   }
   public double getSpeed(){
-    int t = 0; // TO-DO
-    return t;
+    return m_leftMotor.getSelectedSensorVelocity() * Constants.Extension.extensionTicksToArmDistance;
   }
-
   public void Extension(double speed){
     m_rightMotor.set(ControlMode.PercentOutput, speed);
     m_leftMotor.set(ControlMode.PercentOutput, speed);
-}
+  }
   public void stop(){
     m_rightMotor.set(ControlMode.PercentOutput,0);
     m_leftMotor.set(ControlMode.PercentOutput,0);
@@ -144,7 +143,25 @@ public class ExtensionArm extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-
+  public double getSlowExtensionEndsDistance(){
+    return slowExtensionEndsDistance;
+  }
+  public void setSlowExtensionEndsDistance(double x){
+    slowExtensionEndsDistance = x;
+  }
+  public double getExtensionFactorScalar(){
+    return extensionFactorScalar;
+  }
+  public void setExtensionFactorScalar(double x){
+    extensionFactorScalar = x;
+  }
+  @Override
+  public void initSendable(SendableBuilder builder){
+    builder.addDoubleProperty("Position", this::getPosition, null);
+    builder.addDoubleProperty("Motor Speed", this::getSpeed, null);
+    builder.addDoubleProperty("Slow Extension Ends Distance", this::getSlowExtensionEndsDistance, this::setSlowExtensionEndsDistance);
+    builder.addDoubleProperty("Extension Factor Scalar", this::getExtensionFactorScalar, this::setExtensionFactorScalar);
+  }
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation

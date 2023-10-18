@@ -51,4 +51,5 @@ public class AutoZeroExtensionArm extends CommandBase {
   public boolean isFinished() {
     return m_extensionArm.LimitSwitch();
   }
+
 }
