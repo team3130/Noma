@@ -28,8 +28,11 @@ public class ExtensionArm extends SubsystemBase {
 
   private final DigitalInput m_limitSwitch;
   private boolean isZeroed = false;
-  public static double slowExtensionEndsDistance = 0;
-  public static double extensionFactorScalar = 5;
+  public static double maxExtensionTicks = 100; // TO-DO
+  public static double kExtensionDeadband = 0.05;
+  public static double slowExtensionEndsDistance = 0; // TO-DO // the distance from the ends of the arm required to start slowing the motor down
+  public static double extensionTicksToArmDistance = 0; // TO-DO // conversion factor from ticks to distance of arm extension
+  public static double extensionFactorScalar = 5; // TO-DO
   /** Creates a new ExampleSubsystem. */
   public ExtensionArm() {
     m_leftMotor = new WPI_TalonFX(Constants.CAN.leftMotor);
@@ -143,11 +146,29 @@ public class ExtensionArm extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+  public double getMaxExtensionTicks(){
+    return maxExtensionTicks;
+  }
+  public void setMaxExtensionTicks(double x){
+    maxExtensionTicks = x;
+  }
+  public double getkExtensionDeadband(){
+    return kExtensionDeadband;
+  }
+  public void setkExtensionDeadband(double x){
+    kExtensionDeadband = x;
+  }
   public double getSlowExtensionEndsDistance(){
     return slowExtensionEndsDistance;
   }
   public void setSlowExtensionEndsDistance(double x){
     slowExtensionEndsDistance = x;
+  }
+  public double getExtensionTicksToArmDistance(){
+    return extensionTicksToArmDistance;
+  }
+  public void setExtensionTicksToArmDistance(double x){
+    extensionTicksToArmDistance = x;
   }
   public double getExtensionFactorScalar(){
     return extensionFactorScalar;
@@ -159,7 +180,10 @@ public class ExtensionArm extends SubsystemBase {
   public void initSendable(SendableBuilder builder){
     builder.addDoubleProperty("Position", this::getPosition, null);
     builder.addDoubleProperty("Motor Speed", this::getSpeed, null);
+    builder.addDoubleProperty("Max Extension Ticks", this::getMaxExtensionTicks, this::setMaxExtensionTicks);
+    builder.addDoubleProperty("Extension Deadband", this::getkExtensionDeadband, this::setkExtensionDeadband);
     builder.addDoubleProperty("Slow Extension Ends Distance", this::getSlowExtensionEndsDistance, this::setSlowExtensionEndsDistance);
+      builder.addDoubleProperty("Extension Ticks to Arm Distance", this::getExtensionTicksToArmDistance, this::setExtensionTicksToArmDistance);
     builder.addDoubleProperty("Extension Factor Scalar", this::getExtensionFactorScalar, this::setExtensionFactorScalar);
   }
   @Override
