@@ -180,11 +180,13 @@ public class ExtensionArm extends SubsystemBase {
   public void initSendable(SendableBuilder builder){
     builder.addDoubleProperty("Position", this::getPosition, null);
     builder.addDoubleProperty("Motor Speed", this::getSpeed, null);
-    builder.addDoubleProperty("Max Extension Ticks", this::getMaxExtensionTicks, this::setMaxExtensionTicks);
-    builder.addDoubleProperty("Extension Deadband", this::getkExtensionDeadband, this::setkExtensionDeadband);
-    builder.addDoubleProperty("Slow Extension Ends Distance", this::getSlowExtensionEndsDistance, this::setSlowExtensionEndsDistance);
-      builder.addDoubleProperty("Extension Ticks to Arm Distance", this::getExtensionTicksToArmDistance, this::setExtensionTicksToArmDistance);
-    builder.addDoubleProperty("Extension Factor Scalar", this::getExtensionFactorScalar, this::setExtensionFactorScalar);
+    builder.addBooleanProperty("Hit Limit Switch", this::LimitSwitch, null);
+    builder.addDoubleProperty("CMax Extension Ticks", this::getMaxExtensionTicks, this::setMaxExtensionTicks);
+    builder.addDoubleProperty("CExtension Deadband", this::getkExtensionDeadband, this::setkExtensionDeadband);
+    builder.addDoubleProperty("CSlow Extension Ends Distance", this::getSlowExtensionEndsDistance, this::setSlowExtensionEndsDistance);
+    builder.addDoubleProperty("CExtension Ticks to Arm Distance Conversion Factor", this::getExtensionTicksToArmDistance, this::setExtensionTicksToArmDistance); // idk why we have this here - cant we just use formulas to find this?
+    builder.addDoubleProperty("CExtension Factor Scalar", this::getExtensionFactorScalar, this::setExtensionFactorScalar);
+    //titles with "C" in front are constants that need to be determined through experimentation
   }
   @Override
   public void simulationPeriodic() {
