@@ -29,7 +29,7 @@ public class ExtensionArm extends SubsystemBase {
   private final DigitalInput m_limitSwitch;
   private boolean isZeroed = false;
   public static double maxExtensionTicks = 100; // TO-DO
-  public static double kExtensionDeadband = 0.05;
+  public static double kExtensionDeadband = 0.05; //The % of max extension where it will slow down (works on both ends)
   public static double slowExtensionEndsDistance = 0; // TO-DO // the distance from the ends of the arm required to start slowing the motor down
   public static double extensionTicksToArmDistance = 0; // TO-DO // conversion factor from ticks to distance of arm extension
   public static double extensionFactorScalar = 5; // TO-DO
@@ -127,13 +127,13 @@ public class ExtensionArm extends SubsystemBase {
     if (distance > minDistance && distance < (maxDistance - minDistance)) {
       return factor;
     }
-    else if (distance/maxDistance < .05){
+    else if (distance/maxDistance < kExtensionDeadband){
       if (RobotContainer.m_WeaponsGamepad.getRawAxis(1) <= 0){
         factor = (getPosition()/Constants.Extension.extensionFactorScalar);
       }
       else if (RobotContainer.m_WeaponsGamepad.getRawAxis(1) > 0) {}
       }
-    else if (distance/maxDistance > .95) {
+    else if (distance/maxDistance > 1-kExtensionDeadband) {
       if (RobotContainer.m_WeaponsGamepad.getRawAxis(1) >= 0){
         factor = ((maxDistance-getPosition())/Constants.Extension.extensionFactorScalar);
       }
