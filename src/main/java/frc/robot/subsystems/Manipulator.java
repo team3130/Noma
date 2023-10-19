@@ -28,6 +28,9 @@ public class Manipulator extends SubsystemBase {
       /** "speed" is perf to make an actual variable (rather than a parameter) and export in shuffleboard -Giorgia*/
 
       m_manipulatorMotor.set(ControlMode.PercentOutput, speed);}
+  public void setSpeed(double speed){
+      m_manipulatorMotor.set(ControlMode.PercentOutput, speed);
+}
   public double getSpeed(){
       return speed;
   }
@@ -46,7 +49,7 @@ public class Manipulator extends SubsystemBase {
 
   }
   public void initSendable(SendableBuilder builder){
-      builder.addDoubleProperty("Motor Speed", this::getSpeed, null);
+      builder.addDoubleProperty("Motor Speed", this::getSpeed, this::setSpeed);
       builder.addStringProperty("Intake Mode", this::getIntakeMode, null);
   }
 
