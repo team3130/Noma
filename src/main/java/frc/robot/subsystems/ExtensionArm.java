@@ -77,10 +77,6 @@ public class ExtensionArm extends SubsystemBase {
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
-  }
 
   public boolean LimitSwitch(){
     return m_limitSwitch.get();
@@ -92,7 +88,7 @@ public class ExtensionArm extends SubsystemBase {
   public double getSpeed(){
     return m_leftMotor.getSelectedSensorVelocity() * Constants.Extension.extensionTicksToArmDistance;
   }
-  public void Extension(double speed){
+  public void setSpeed(double speed){
     m_rightMotor.set(ControlMode.PercentOutput, speed);
     m_leftMotor.set(ControlMode.PercentOutput, speed);
   }
@@ -179,7 +175,7 @@ public class ExtensionArm extends SubsystemBase {
   @Override
   public void initSendable(SendableBuilder builder){
     builder.addDoubleProperty("Position", this::getPosition, null);
-    builder.addDoubleProperty("Motor Speed", this::getSpeed, null);
+    builder.addDoubleProperty("Motor Speed", this::getSpeed, this::setSpeed);
     builder.addBooleanProperty("Hit Limit Switch", this::LimitSwitch, null);
     builder.addDoubleProperty("CMax Extension Ticks", this::getMaxExtensionTicks, this::setMaxExtensionTicks);
     builder.addDoubleProperty("CExtension Deadband", this::getkExtensionDeadband, this::setkExtensionDeadband);

@@ -52,7 +52,7 @@ public class ExtensionExtend extends CommandBase {
       if (m_ExtensionArm.getPosition() >= Constants.Extension.maxExtensionTicks && y >= 0) {
         y = 0;
       }
-      m_ExtensionArm.Extension(y * m_ExtensionArm.slowZoneFactor());
+      m_ExtensionArm.setSpeed(y * m_ExtensionArm.slowZoneFactor());
 
     }
     else{
@@ -66,7 +66,7 @@ public class ExtensionExtend extends CommandBase {
       if (m_ExtensionArm.getPosition() >= Constants.Extension.maxExtensionTicks && y >= 0) {
         y = 0;
       }
-      m_ExtensionArm.Extension(y);
+      m_ExtensionArm.setSpeed(y);
     }
 
   }

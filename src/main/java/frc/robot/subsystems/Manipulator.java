@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -13,6 +14,8 @@ import frc.robot.Constants;
 public class Manipulator extends SubsystemBase {
 
   private final WPI_TalonFX m_manipulatorMotor; // we should probably change these names once we learn more
+  private double speed;
+  private String intakeMode;
 
 
   public Manipulator() {
@@ -24,13 +27,30 @@ public class Manipulator extends SubsystemBase {
   public void Manipulate (double speed){
       /** "speed" is perf to make an actual variable (rather than a parameter) and export in shuffleboard -Giorgia*/
 
+      m_manipulatorMotor.set(ControlMode.PercentOutput, speed);}
+  public void setSpeed(double speed){
       m_manipulatorMotor.set(ControlMode.PercentOutput, speed);
-     }
+}
+  public double getSpeed(){
+      return speed;
+  }
+  public void setIntakeMode(int mode){
+      if(mode == 1){intakeMode="Intake Cone";}
+      else if(mode == 1){intakeMode="Intake Cube";}
+      else if(mode == 1){intakeMode="Outtake Cone";}
+      else if(mode == 1){intakeMode="Outtake Cone";}
+
+  }
+  public String getIntakeMode(){return intakeMode;}
  public void StopManipulator (){
     m_manipulatorMotor.set(ControlMode.PercentOutput, 0); }
   @Override
   public void periodic() {
 
+  }
+  public void initSendable(SendableBuilder builder){
+      builder.addDoubleProperty("Motor Speed", this::getSpeed, this::setSpeed);
+      builder.addStringProperty("Intake Mode", this::getIntakeMode, null);
   }
 
   @Override
