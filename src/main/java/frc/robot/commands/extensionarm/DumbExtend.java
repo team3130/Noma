@@ -21,8 +21,7 @@ public class DumbExtend extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
-  }
-
+  
   // Called every time the scheduler runs while the command is scheduled.
   /** try to downsize some conditions to seperate methods in your subsystem -Giorgia*/
   @Override
