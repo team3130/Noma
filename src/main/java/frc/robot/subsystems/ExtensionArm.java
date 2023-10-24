@@ -63,10 +63,10 @@ public class ExtensionArm extends SubsystemBase {
   }
 
   public double getPosition(){
-    return m_leftMotor.getSelectedSensorPosition() * Constants.Extension.extensionTicksToArmDistance;
+    return m_leftMotor.getSelectedSensorPosition() * getExtensionTicksToArmDistance();
   }
   public double getSpeed(){
-    return m_leftMotor.getSelectedSensorVelocity() * Constants.Extension.extensionTicksToArmDistance;
+    return m_leftMotor.getSelectedSensorVelocity() * getExtensionTicksToArmDistance();
   }
   public void setSpeed(double speed){
     m_rightMotor.set(ControlMode.PercentOutput, speed);
@@ -89,7 +89,7 @@ public class ExtensionArm extends SubsystemBase {
   }
   /**returns if the arm has retracted or extended into the danger(slow) zones*/
   public boolean inSlowZone(){
-    if((getPosition()<=Constants.Extension.slowExtensionEndsDistance)&&(getPosition()>=Constants.Extension.maxExtensionTicks-Constants.Extension.slowExtensionEndsDistance)){
+    if((getPosition()<=getSlowExtensionEndsDistance())&&(getPosition()>=getMaxExtensionTicks()-getSlowExtensionEndsDistance())){
       return true;
     }
     else {
@@ -98,7 +98,7 @@ public class ExtensionArm extends SubsystemBase {
   }
   public double slowZoneFactor(){
     double factor = 1;
-    double maxDistance = Constants.Extension.maxExtensionTicks;
+    double maxDistance = getMaxExtensionTicks();
     double distance = getPosition();
     double slowZoneDistance = getSlowExtensionEndsDistance();
     double joystickInput = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
@@ -108,12 +108,12 @@ public class ExtensionArm extends SubsystemBase {
     }
     else if (distance <= slowZoneDistance){
       if (joystickInput <= 0){
-        factor = (distance / Constants.Extension.extensionFactorScalar); // if retracting while in 1st slow zone, slow down arm
+        factor = (distance / getExtensionFactorScalar()); // if retracting while in 1st slow zone, slow down arm
       }
     } // if extending while in 1st slow zone, put no limits on speed
     else if (distance >= (maxDistance - slowZoneDistance)) {
       if (joystickInput >= 0){
-        factor = ((maxDistance - distance) / Constants.Extension.extensionFactorScalar); // if extending while in 2nd slow zone, slow down arm
+        factor = ((maxDistance - distance) / getExtensionFactorScalar()); // if extending while in 2nd slow zone, slow down arm
       }
     } // if retracting while in 2nd slow zone, put no limits on speed
     return factor;

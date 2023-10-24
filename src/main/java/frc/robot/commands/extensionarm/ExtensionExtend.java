@@ -43,13 +43,13 @@ public class ExtensionExtend extends CommandBase {
   public void execute() {
     if (m_ExtensionArm.inSlowZone()){
       double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
-      if (Constants.Extension.kExtensionDeadband >= Math.abs(y)) {
+      if (m_ExtensionArm.getkExtensionDeadband() >= Math.abs(y)) {
         y = 0;
       }
       if (m_ExtensionArm.LimitSwitch() && y <= 0) {
         y = 0;
       }
-      if (m_ExtensionArm.getPosition() >= Constants.Extension.maxExtensionTicks && y >= 0) {
+      if (m_ExtensionArm.getPosition() >= m_ExtensionArm.getMaxExtensionTicks() && y >= 0) {
         y = 0;
       }
       m_ExtensionArm.setSpeed(y * m_ExtensionArm.slowZoneFactor());
@@ -57,13 +57,13 @@ public class ExtensionExtend extends CommandBase {
     }
     else{
       double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
-      if (Constants.Extension.kExtensionDeadband >= Math.abs(y)) {
+      if (m_ExtensionArm.getkExtensionDeadband() >= Math.abs(y)) {
         y = 0;
       }
       if (m_ExtensionArm.LimitSwitch() && y <= 0) {
         y = 0;
       }
-      if (m_ExtensionArm.getPosition() >= Constants.Extension.maxExtensionTicks && y >= 0) {
+      if (m_ExtensionArm.getPosition() >= m_ExtensionArm.getMaxExtensionTicks() && y >= 0) {
         y = 0;
       }
       m_ExtensionArm.setSpeed(y);
