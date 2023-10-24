@@ -117,7 +117,7 @@ public final class Constants {
     public static final double kExtensionDeadband = 0.05;
     public static final double slowExtensionEndsDistance = 0; // TO-DO // the distance from the ends of the arm required to start slowing the motor down
     public static final double extensionTicksToArmDistance = 0; // TO-DO // conversion factor from ticks to distance of arm extension
-    public static final double extensionFactorScalar = 5; // TO-DO
+    public static final double extensionFactorScalar = 5; // TO-DO // magic number (e.g. setspeed(motorposition / magic number))
 
   }
 }

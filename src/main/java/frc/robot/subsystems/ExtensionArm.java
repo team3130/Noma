@@ -28,12 +28,12 @@ public class ExtensionArm extends SubsystemBase {
 
   private final DigitalInput m_limitSwitch;
   private boolean isZeroed = false;
+/**Extension arm testing constants*/
   public static double maxExtensionTicks = 100; // TO-DO
   public static double kExtensionDeadband = 0.05; //The % of max extension where it will slow down (works on both ends)
   public static double slowExtensionEndsDistance = 0; // TO-DO // the distance from the ends of the arm required to start slowing the motor down
   public static double extensionTicksToArmDistance = 0; // TO-DO // conversion factor from ticks to distance of arm extension
   public static double extensionFactorScalar = 5; // TO-DO
-  /** Creates a new ExampleSubsystem. */
   public ExtensionArm() {
     m_leftMotor = new WPI_TalonFX(Constants.CAN.leftMotor);
     m_rightMotor = new WPI_TalonFX(Constants.CAN.rightMotor);
@@ -57,27 +57,7 @@ public class ExtensionArm extends SubsystemBase {
     m_leftMotor.setNeutralMode(NeutralMode.Brake);
     m_rightMotor.setNeutralMode(NeutralMode.Brake);
   }
-
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public CommandBase exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
-
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-
+  /**returns if the limit switch has been hit*/
   public boolean LimitSwitch(){
     return m_limitSwitch.get();
   }
@@ -96,6 +76,7 @@ public class ExtensionArm extends SubsystemBase {
     m_rightMotor.set(ControlMode.PercentOutput,0);
     m_leftMotor.set(ControlMode.PercentOutput,0);
   }
+  /**zeroes encoders*/
   public void resetEncoders(){
     m_leftMotor.setSelectedSensorPosition(0);
     m_rightMotor.setSelectedSensorPosition(0);
@@ -106,35 +87,35 @@ public class ExtensionArm extends SubsystemBase {
   public boolean isZeroed(){
     return isZeroed;
   }
+  /**returns if the arm has retracted or extended into the danger(slow) zones*/
   public boolean inSlowZone(){
-    if((getPosition()<=Constants.Extension.slowExtensionEndsDistance)&&(Constants.Extension.maxExtensionTicks-getPosition()<=Constants.Extension.slowExtensionEndsDistance)){
-      return false;
+    if((getPosition()<=Constants.Extension.slowExtensionEndsDistance)&&(getPosition()>=Constants.Extension.maxExtensionTicks-Constants.Extension.slowExtensionEndsDistance)){
+      return true;
     }
     else {
-      return true;
+      return false;
     }
   }
   public double slowZoneFactor(){
-    /** try to downsize some conditions to seperate methods -Giorgia*/
     double factor = 1;
-    double minDistance = Constants.Extension.slowExtensionEndsDistance;
     double maxDistance = Constants.Extension.maxExtensionTicks;
     double distance = getPosition();
-    if (distance > minDistance && distance < (maxDistance - minDistance)) {
-      return factor;
+    double slowZoneDistance = getSlowExtensionEndsDistance();
+    double joystickInput = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
+
+    if (!inSlowZone()) {
+      return factor; // if not in a slow zone, then put no limits on speed
     }
-    else if (distance/maxDistance < kExtensionDeadband){
-      if (RobotContainer.m_WeaponsGamepad.getRawAxis(1) <= 0){
-        factor = (getPosition()/Constants.Extension.extensionFactorScalar);
+    else if (distance <= slowZoneDistance){
+      if (joystickInput <= 0){
+        factor = (distance / Constants.Extension.extensionFactorScalar); // if retracting while in 1st slow zone, slow down arm
       }
-      else if (RobotContainer.m_WeaponsGamepad.getRawAxis(1) > 0) {}
+    } // if extending while in 1st slow zone, put no limits on speed
+    else if (distance >= (maxDistance - slowZoneDistance)) {
+      if (joystickInput >= 0){
+        factor = ((maxDistance - distance) / Constants.Extension.extensionFactorScalar); // if extending while in 2nd slow zone, slow down arm
       }
-    else if (distance/maxDistance > 1-kExtensionDeadband) {
-      if (RobotContainer.m_WeaponsGamepad.getRawAxis(1) >= 0){
-        factor = ((maxDistance-getPosition())/Constants.Extension.extensionFactorScalar);
-      }
-      else if (RobotContainer.m_WeaponsGamepad.getRawAxis(1) < 0) {}
-    }
+    } // if retracting while in 2nd slow zone, put no limits on speed
     return factor;
   }
 
@@ -142,6 +123,7 @@ public class ExtensionArm extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+  /**Shuffleboard getters and setters for constants*/
   public double getMaxExtensionTicks(){
     return maxExtensionTicks;
   }
@@ -172,6 +154,7 @@ public class ExtensionArm extends SubsystemBase {
   public void setExtensionFactorScalar(double x){
     extensionFactorScalar = x;
   }
+  /**Shuffleboard output*/
   @Override
   public void initSendable(SendableBuilder builder){
     builder.addDoubleProperty("Position", this::getPosition, null);
