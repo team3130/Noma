@@ -26,7 +26,7 @@ public class DumbExtend extends CommandBase {
   /** try to downsize some conditions to seperate methods in your subsystem -Giorgia*/
   @Override
   public void execute() {
-    m_ExtensionArm.setSpeed(.1);
+    m_ExtensionArm.setSpeed(.15); // you will need to change this
   }
 
   // Called once the command ends or is interrupted.
