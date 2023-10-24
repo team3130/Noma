@@ -103,10 +103,7 @@ public class ExtensionArm extends SubsystemBase {
     double slowZoneDistance = getSlowExtensionEndsDistance();
     double joystickInput = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
 
-    if (!inSlowZone()) {
-      return factor; // if not in a slow zone, then put no limits on speed
-    }
-    else if (distance <= slowZoneDistance){
+    if (distance <= slowZoneDistance){
       if (joystickInput <= 0){
         factor = (distance / getExtensionFactorScalar()); // if retracting while in 1st slow zone, slow down arm
       }
