@@ -21,13 +21,12 @@ public class DumbExtend extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
-  }
-
+  
   // Called every time the scheduler runs while the command is scheduled.
   /** try to downsize some conditions to seperate methods in your subsystem -Giorgia*/
   @Override
   public void execute() {
-    m_ExtensionArm.setSpeed(.1);
+    m_ExtensionArm.setSpeed(.15); // you will need to change this
   }
 
   // Called once the command ends or is interrupted.
