@@ -35,10 +35,10 @@ public class Manipulator extends SubsystemBase {
       return speed;
   }
   public void setIntakeMode(int mode){
-      if(mode == 1){intakeMode="Intake Cone";}
-      else if(mode == 1){intakeMode="Intake Cube";}
-      else if(mode == 1){intakeMode="Outtake Cone";}
-      else if(mode == 1){intakeMode="Outtake Cone";}
+      if(mode == 1){intakeMode="Intake Cone";} // TODO
+      else if(mode == 1){intakeMode="Intake Cube";} // TODO
+      else if(mode == 1){intakeMode="Outtake Cone";} // TODO
+      else if(mode == 1){intakeMode="Outtake Cone";} // TODO
 
   }
   public String getIntakeMode(){return intakeMode;}
