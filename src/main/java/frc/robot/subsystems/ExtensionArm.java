@@ -115,12 +115,31 @@ public class ExtensionArm extends SubsystemBase {
     } // if retracting while in 2nd slow zone, put no limits on speed
     return factor;
   }
+  public double rawMotorSpeed(double y) {
+    if (getkExtensionDeadband() >= Math.abs(y)) { // if the fetched joystick value is less than the deadband value, then set speed to 0
+      return 0;
+    }
+    if (allowedToMovePastEnds(y)) { // if arm hits the ends and is trying to move past the ends, then set speed to zero
+      return 0;
+    }
+    return y;
+  }
 
+  public boolean allowedToMovePastEnds(double y){
+    if (LimitSwitch() && (y <= 0)) { // if trying to move past the limit switch, return false
+      return false;
+    }
+    else if ((getPosition() >= getMaxExtensionTicks()) && (y >= 0)) { // if trying to move past maxTicks, return false
+      return false;
+    }
+    return true;
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
   /**Shuffleboard getters and setters for constants*/
+  /**these will be used in Extension Arm Commands until constant testing is over*/
   public double getMaxExtensionTicks(){
     return maxExtensionTicks;
   }
@@ -151,8 +170,9 @@ public class ExtensionArm extends SubsystemBase {
   public void setExtensionFactorScalar(double x){
     extensionFactorScalar = x;
   }
-  /**Shuffleboard output*/
+
   @Override
+  /**Shuffleboard output*/
   public void initSendable(SendableBuilder builder){
     builder.addDoubleProperty("Position", this::getPosition, null);
     builder.addDoubleProperty("Motor Speed", this::getSpeed, this::setSpeed);
