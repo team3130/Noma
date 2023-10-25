@@ -29,11 +29,12 @@ public class ExtensionArm extends SubsystemBase {
   private final DigitalInput m_limitSwitch;
   private boolean isZeroed = false;
 /**Extension arm testing constants*/
-  public static double maxExtensionTicks = 100; // TO-DO
+  public static double maxExtensionTicks = 100; // TODO
   public static double kExtensionDeadband = 0.05; //The % of max extension where it will slow down (works on both ends)
-  public static double slowExtensionEndsDistance = 0; // TO-DO // the distance from the ends of the arm required to start slowing the motor down
-  public static double extensionTicksToArmDistance = 0; // TO-DO // conversion factor from ticks to distance of arm extension
-  public static double extensionFactorScalar = 5; // TO-DO
+  public static double slowExtensionEndsDistance = 0; // TODO // the distance from the ends of the arm required to start slowing the motor down
+  public static double extensionTicksToArmDistance = 0; // TODO // conversion factor from ticks to distance of arm extension
+  public static double extensionFactorScalar = 5; // TODO
+
   public ExtensionArm() {
     m_leftMotor = new WPI_TalonFX(Constants.CAN.leftMotor);
     m_rightMotor = new WPI_TalonFX(Constants.CAN.rightMotor);
@@ -57,6 +58,7 @@ public class ExtensionArm extends SubsystemBase {
     m_leftMotor.setNeutralMode(NeutralMode.Brake);
     m_rightMotor.setNeutralMode(NeutralMode.Brake);
   }
+
   /**returns if the limit switch has been hit*/
   public boolean LimitSwitch(){
     return m_limitSwitch.get();
@@ -65,9 +67,11 @@ public class ExtensionArm extends SubsystemBase {
   public double getPosition(){
     return m_leftMotor.getSelectedSensorPosition() * getExtensionTicksToArmDistance();
   }
+
   public double getSpeed(){
     return m_leftMotor.getSelectedSensorVelocity() * getExtensionTicksToArmDistance();
   }
+
   public void setSpeed(double speed){
     m_rightMotor.set(ControlMode.PercentOutput, speed);
     m_leftMotor.set(ControlMode.PercentOutput, speed);
@@ -76,19 +80,23 @@ public class ExtensionArm extends SubsystemBase {
     m_rightMotor.set(ControlMode.PercentOutput,0);
     m_leftMotor.set(ControlMode.PercentOutput,0);
   }
+
   /**zeroes encoders*/
   public void resetEncoders(){
     m_leftMotor.setSelectedSensorPosition(0);
     m_rightMotor.setSelectedSensorPosition(0);
   }
+
   public void setZeroed(){
     isZeroed = true;
   }
+
   public boolean isZeroed(){
     return isZeroed;
   }
+
   /**returns if the arm has retracted or extended into the danger(slow) zones*/
-  public boolean inSlowZone(){
+  public boolean inSlowZone() {
     if((getPosition()<=getSlowExtensionEndsDistance())&&(getPosition()>=getMaxExtensionTicks()-getSlowExtensionEndsDistance())){
       return true;
     }
@@ -96,25 +104,27 @@ public class ExtensionArm extends SubsystemBase {
       return false;
     }
   }
-  public double slowZoneFactor(){
+
+  public double slowZoneFactor() {
     double factor = 1;
     double maxDistance = getMaxExtensionTicks();
     double distance = getPosition();
     double slowZoneDistance = getSlowExtensionEndsDistance();
     double joystickInput = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
 
-    if (distance <= slowZoneDistance){
+    if (distance <= slowZoneDistance) {
       if (joystickInput <= 0){ // if the joystick extends the arm then
         factor = (distance / getExtensionFactorScalar()); // if retracting while in 1st slow zone, slow down arm
       }
     } // if extending while in 1st slow zone, put no limits on speed
     else if (distance >= (maxDistance - slowZoneDistance)) {
-      if (joystickInput >= 0){
+      if (joystickInput >= 0) {
         factor = ((maxDistance - distance) / getExtensionFactorScalar()); // if extending while in 2nd slow zone, slow down arm
       }
     } // if retracting while in 2nd slow zone, put no limits on speed
     return factor;
   }
+
   public double rawMotorSpeed(double y) {
     if (getkExtensionDeadband() >= Math.abs(y)) { // if the fetched joystick value is less than the deadband value, then set speed to 0
       return 0;
@@ -125,7 +135,7 @@ public class ExtensionArm extends SubsystemBase {
     return y;
   }
 
-  public boolean allowedToMovePastEnds(double y){
+  public boolean allowedToMovePastEnds(double y) {
     if (LimitSwitch() && (y <= 0)) { // if trying to move past the limit switch, return false
       return false;
     }
@@ -134,10 +144,12 @@ public class ExtensionArm extends SubsystemBase {
     }
     return true;
   }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
   /**Shuffleboard getters and setters for constants*/
   /**these will be used in Extension Arm Commands until constant testing is over*/
   public double getMaxExtensionTicks(){
@@ -146,27 +158,35 @@ public class ExtensionArm extends SubsystemBase {
   public void setMaxExtensionTicks(double x){
     maxExtensionTicks = x;
   }
+
   public double getkExtensionDeadband(){
     return kExtensionDeadband;
   }
+
   public void setkExtensionDeadband(double x){
     kExtensionDeadband = x;
   }
+
   public double getSlowExtensionEndsDistance(){
     return slowExtensionEndsDistance;
   }
+
   public void setSlowExtensionEndsDistance(double x){
     slowExtensionEndsDistance = x;
   }
+
   public double getExtensionTicksToArmDistance(){
     return extensionTicksToArmDistance;
   }
+
   public void setExtensionTicksToArmDistance(double x){
     extensionTicksToArmDistance = x;
   }
+
   public double getExtensionFactorScalar(){
     return extensionFactorScalar;
   }
+
   public void setExtensionFactorScalar(double x){
     extensionFactorScalar = x;
   }

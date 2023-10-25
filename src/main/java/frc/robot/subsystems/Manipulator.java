@@ -24,31 +24,39 @@ public class Manipulator extends SubsystemBase {
     m_manipulatorMotor.setInverted(false);
   }
 
-  public void Manipulate (double speed){
+  public void Manipulate (double speed) {
       /** "speed" is perf to make an actual variable (rather than a parameter) and export in shuffleboard -Giorgia*/
-
-      m_manipulatorMotor.set(ControlMode.PercentOutput, speed);}
-  public void setSpeed(double speed){
       m_manipulatorMotor.set(ControlMode.PercentOutput, speed);
-}
-  public double getSpeed(){
+  }
+
+  public void setSpeed(double speed) {
+      m_manipulatorMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public double getSpeed() {
       return speed;
   }
-  public void setIntakeMode(int mode){
+
+  public void setIntakeMode(int mode) {
       if(mode == 1){intakeMode="Intake Cone";} // TODO
       else if(mode == 1){intakeMode="Intake Cube";} // TODO
       else if(mode == 1){intakeMode="Outtake Cone";} // TODO
       else if(mode == 1){intakeMode="Outtake Cone";} // TODO
-
   }
-  public String getIntakeMode(){return intakeMode;}
- public void StopManipulator (){
-    m_manipulatorMotor.set(ControlMode.PercentOutput, 0); }
+
+  public String getIntakeMode() {
+      return intakeMode;
+  }
+
+  public void StopManipulator() {
+    m_manipulatorMotor.set(ControlMode.PercentOutput, 0);
+  }
+
   @Override
   public void periodic() {
-
   }
-  public void initSendable(SendableBuilder builder){
+
+  public void initSendable(SendableBuilder builder) {
       builder.addDoubleProperty("Motor Speed", this::getSpeed, this::setSpeed);
       builder.addStringProperty("Intake Mode", this::getIntakeMode, null);
   }
