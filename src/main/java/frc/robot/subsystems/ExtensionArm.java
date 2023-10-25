@@ -33,7 +33,8 @@ public class ExtensionArm extends SubsystemBase {
   public static double kExtensionDeadband = 0.05; //The % of max extension where it will slow down (works on both ends)
   public static double slowExtensionEndsDistance = 0; // TODO // the distance from the ends of the arm required to start slowing the motor down
   public static double extensionTicksToArmDistance = 0; // TODO // conversion factor from ticks to distance of arm extension
-  public static double extensionFactorScalar = 5; // TODO
+  public static double extensionFactorScalar = slowExtensionEndsDistance; // TODO
+  public static double dumbSpeed = .15;
 
   public ExtensionArm() {
     m_leftMotor = new WPI_TalonFX(Constants.CAN.leftMotor);
@@ -65,11 +66,11 @@ public class ExtensionArm extends SubsystemBase {
   }
 
   public double getPosition(){
-    return m_leftMotor.getSelectedSensorPosition() * getExtensionTicksToArmDistance();
+    return m_leftMotor.getSelectedSensorPosition() * extensionTicksToArmDistance;
   }
 
   public double getSpeed(){
-    return m_leftMotor.getSelectedSensorVelocity() * getExtensionTicksToArmDistance();
+    return m_leftMotor.getSelectedSensorVelocity() * extensionTicksToArmDistance;
   }
 
   public void setSpeed(double speed){
@@ -97,7 +98,7 @@ public class ExtensionArm extends SubsystemBase {
 
   /**returns if the arm has retracted or extended into the danger(slow) zones*/
   public boolean inSlowZone() {
-    if((getPosition()<=getSlowExtensionEndsDistance())&&(getPosition()>=getMaxExtensionTicks()-getSlowExtensionEndsDistance())){
+    if((getPosition()<=slowExtensionEndsDistance)&&(getPosition()>=maxExtensionTicks-slowExtensionEndsDistance)){
       return true;
     }
     else {
@@ -107,29 +108,29 @@ public class ExtensionArm extends SubsystemBase {
 
   public double slowZoneFactor() {
     double factor = 1;
-    double maxDistance = getMaxExtensionTicks();
+    double maxDistance = maxExtensionTicks;
     double distance = getPosition();
-    double slowZoneDistance = getSlowExtensionEndsDistance();
+    double slowZoneDistance = slowExtensionEndsDistance;
     double joystickInput = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
 
     if (distance <= slowZoneDistance) {
       if (joystickInput <= 0){ // if the joystick extends the arm then
-        factor = (distance / getExtensionFactorScalar()); // if retracting while in 1st slow zone, slow down arm
+        factor = (distance / extensionFactorScalar); // if retracting while in 1st slow zone, slow down arm
       }
     } // if extending while in 1st slow zone, put no limits on speed
     else if (distance >= (maxDistance - slowZoneDistance)) {
       if (joystickInput >= 0) {
-        factor = ((maxDistance - distance) / getExtensionFactorScalar()); // if extending while in 2nd slow zone, slow down arm
+        factor = ((maxDistance - distance) / extensionFactorScalar); // if extending while in 2nd slow zone, slow down arm
       }
     } // if retracting while in 2nd slow zone, put no limits on speed
     return factor;
   }
 
   public double rawMotorSpeed(double y) {
-    if (getkExtensionDeadband() >= Math.abs(y)) { // if the fetched joystick value is less than the deadband value, then set speed to 0
+    if (kExtensionDeadband >= Math.abs(y)) { // if the fetched joystick value is less than the deadband value, then set speed to 0
       return 0;
     }
-    if (allowedToMovePastEnds(y)) { // if arm hits the ends and is trying to move past the ends, then set speed to zero
+    if (!allowedToMovePastEnds(y)) { // if arm hits the ends and is trying to move past the ends, then set speed to zero
       return 0;
     }
     return y;
@@ -139,10 +140,13 @@ public class ExtensionArm extends SubsystemBase {
     if (LimitSwitch() && (y <= 0)) { // if trying to move past the limit switch, return false
       return false;
     }
-    else if ((getPosition() >= getMaxExtensionTicks()) && (y >= 0)) { // if trying to move past maxTicks, return false
+    else if ((getPosition() >= maxExtensionTicks) && (y >= 0)) { // if trying to move past maxTicks, return false
       return false;
     }
     return true;
+  }
+  public void dumbSetSpeed(int x) {
+    setSpeed(dumbSpeed * x);
   }
 
   @Override
@@ -191,6 +195,15 @@ public class ExtensionArm extends SubsystemBase {
     extensionFactorScalar = x;
   }
 
+  public void setDumbSpeed(double x){
+    dumbSpeed = x;
+  }
+
+  public double getDumbSpeed(){
+    return dumbSpeed;
+  }
+
+
   @Override
   /**Shuffleboard output*/
   public void initSendable(SendableBuilder builder){
@@ -202,6 +215,7 @@ public class ExtensionArm extends SubsystemBase {
     builder.addDoubleProperty("CSlow Extension Ends Distance", this::getSlowExtensionEndsDistance, this::setSlowExtensionEndsDistance);
     builder.addDoubleProperty("CExtension Ticks to Arm Distance Conversion Factor", this::getExtensionTicksToArmDistance, this::setExtensionTicksToArmDistance); // idk why we have this here - cant we just use formulas to find this?
     builder.addDoubleProperty("CExtension Factor Scalar", this::getExtensionFactorScalar, this::setExtensionFactorScalar);
+    builder.addDoubleProperty("CDumb", this::getDumbSpeed, this::setDumbSpeed);
     //titles with "C" in front are constants that need to be determined through experimentation
   }
   @Override
