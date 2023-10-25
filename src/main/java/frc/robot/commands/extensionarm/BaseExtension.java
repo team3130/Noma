@@ -5,12 +5,11 @@
 package frc.robot.commands.extensionarm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExtensionArm;
 
 /** An example command that uses an example subsystem. */
-public class ExtensionExtend extends CommandBase {
+public class BaseExtension extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ExtensionArm m_ExtensionArm;
   private final RobotContainer m_robotContainer;
@@ -21,7 +20,7 @@ public class ExtensionExtend extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ExtensionExtend(ExtensionArm subsystem, RobotContainer container) {
+  public BaseExtension(ExtensionArm subsystem, RobotContainer container) {
     m_ExtensionArm = subsystem;
     m_robotContainer = container;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -60,14 +59,8 @@ public class ExtensionExtend extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_ExtensionArm.inSlowZone()){
-      double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1); // get value of joystick
-      m_ExtensionArm.setSpeed(rawMotorSpeed(y) * m_ExtensionArm.slowZoneFactor()); // set speed based on joystick value and distance into slowzone
-    }
-    else{
-      double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1); // get value of joystick
-      m_ExtensionArm.setSpeed(rawMotorSpeed(y)); //set speed based on joystick value for when not in slowzone
-    }
+    double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1); // get value from joystick
+    m_ExtensionArm.setSpeed(rawMotorSpeed(y)); //set speed based on joystick value
   }
 
   // Called once the command ends or is interrupted.
