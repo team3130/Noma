@@ -28,6 +28,26 @@ public class ExtensionExtend extends CommandBase {
     addRequirements(subsystem);
   }
 
+  public double rawMotorSpeed(double y) {
+    if (m_ExtensionArm.getkExtensionDeadband() >= Math.abs(y)) { // if the fetched joystick value is less than the deadband value, then set speed to 0
+      return 0;
+    }
+    if (allowedToMovePastEnds(y)) { // if arm hits the ends and is trying to move past the ends, then set speed to zero
+      return 0;
+    }
+    return y;
+  }
+
+  public boolean allowedToMovePastEnds(double y){
+    if (m_ExtensionArm.LimitSwitch() && (y <= 0)) { // if trying to move past the limit switch, return false
+      return false;
+    }
+    else if ((m_ExtensionArm.getPosition() >= m_ExtensionArm.getMaxExtensionTicks()) && (y >= 0)) { // if trying to move past maxTicks, return false
+      return false;
+    }
+    return true;
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -38,37 +58,16 @@ public class ExtensionExtend extends CommandBase {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  /** try to downsize some conditions to seperate methods in your subsystem -Giorgia*/
   @Override
   public void execute() {
     if (m_ExtensionArm.inSlowZone()){
       double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
-      if (m_ExtensionArm.getkExtensionDeadband() >= Math.abs(y)) {
-        y = 0;
-      }
-      if (m_ExtensionArm.LimitSwitch() && y <= 0) {
-        y = 0;
-      }
-      if (m_ExtensionArm.getPosition() >= m_ExtensionArm.getMaxExtensionTicks() && y >= 0) {
-        y = 0;
-      }
-      m_ExtensionArm.setSpeed(y * m_ExtensionArm.slowZoneFactor());
-
+      m_ExtensionArm.setSpeed(rawMotorSpeed(y) * m_ExtensionArm.slowZoneFactor()); // set speed using distance into slowzone
     }
     else{
       double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
-      if (m_ExtensionArm.getkExtensionDeadband() >= Math.abs(y)) {
-        y = 0;
-      }
-      if (m_ExtensionArm.LimitSwitch() && y <= 0) {
-        y = 0;
-      }
-      if (m_ExtensionArm.getPosition() >= m_ExtensionArm.getMaxExtensionTicks() && y >= 0) {
-        y = 0;
-      }
-      m_ExtensionArm.setSpeed(y);
+      m_ExtensionArm.setSpeed(rawMotorSpeed(y)); //set base speed for when not in slowzone
     }
-
   }
 
   // Called once the command ends or is interrupted.
@@ -81,3 +80,5 @@ public class ExtensionExtend extends CommandBase {
     return false;
   }
 }
+
+
