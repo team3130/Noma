@@ -11,6 +11,8 @@ import frc.robot.commands.manipulator.IntakeCone;
 import frc.robot.commands.manipulator.IntakeCube;
 import frc.robot.commands.manipulator.OuttakeCone;
 import frc.robot.commands.manipulator.OuttakeCube;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.*;
 import frc.robot.commands.extensionarm.AutoZeroExtensionArm;
 import frc.robot.commands.extensionarm.ExtensionExtend;
@@ -81,6 +83,13 @@ public class RobotContainer {
     new JoystickButton(m_weaponsGamepad, 4).whileTrue(new IntakeCube(getManipulator()));
     new JoystickButton(m_weaponsGamepad, 5).whileTrue(new OuttakeCone(getManipulator()));
     new JoystickButton(m_weaponsGamepad, 6).whileTrue(new OuttakeCube(getManipulator()));
+  }
+
+  /**
+   * Schedules a command to zero the extension arm
+   */
+  public CommandBase zeroCommand() {
+    return new SequentialCommandGroup(new AutoZeroExtensionArm(m_extension));
   }
 
   /**
