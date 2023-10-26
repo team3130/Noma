@@ -31,7 +31,8 @@ public class ExtensionArm extends SubsystemBase {
 /**Extension arm testing constants*/
   public static double maxExtensionTicks = 100; // TODO
   public static double kExtensionDeadband = 0.05; //The % of max extension where it will slow down (works on both ends)
-  public static double slowExtensionEndsDistance = 0; // TODO // the distance from the ends of the arm required to start slowing the motor down
+  public static double percentage = 15;
+  public static double slowExtensionEndsDistance = (percentage / 100) * maxExtensionTicks; // TODO // the distance from the ends of the arm required to start slowing the motor down
   public static double extensionTicksToArmDistance = 0; // TODO // conversion factor from ticks to distance of arm extension
   public static double extensionFactorScalar = slowExtensionEndsDistance; // TODO
   public static double dumbSpeed = .15;
@@ -203,6 +204,10 @@ public class ExtensionArm extends SubsystemBase {
     return dumbSpeed;
   }
 
+  public double getPercentage() {
+    return percentage;
+  }
+
 
   @Override
   /**Shuffleboard output*/
@@ -212,7 +217,7 @@ public class ExtensionArm extends SubsystemBase {
     builder.addBooleanProperty("Hit Limit Switch", this::LimitSwitch, null);
     builder.addDoubleProperty("CMax Extension Ticks", this::getMaxExtensionTicks, this::setMaxExtensionTicks);
     builder.addDoubleProperty("CExtension Deadband", this::getkExtensionDeadband, this::setkExtensionDeadband);
-    builder.addDoubleProperty("CSlow Extension Ends Distance", this::getSlowExtensionEndsDistance, this::setSlowExtensionEndsDistance);
+    builder.addDoubleProperty("CSlow Zone Extension Percentage", this::getPercentage, this::setSlowExtensionEndsDistance);
     builder.addDoubleProperty("CExtension Ticks to Arm Distance Conversion Factor", this::getExtensionTicksToArmDistance, this::setExtensionTicksToArmDistance); // idk why we have this here - cant we just use formulas to find this?
     builder.addDoubleProperty("CExtension Factor Scalar", this::getExtensionFactorScalar, this::setExtensionFactorScalar);
     builder.addDoubleProperty("CDumb", this::getDumbSpeed, this::setDumbSpeed);
