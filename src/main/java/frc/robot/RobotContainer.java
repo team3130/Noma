@@ -6,11 +6,15 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.manipulator.IntakeCone;
 import frc.robot.commands.manipulator.IntakeCube;
 import frc.robot.commands.manipulator.OuttakeCone;
 import frc.robot.commands.manipulator.OuttakeCube;
+import frc.robot.commands.extensionarm.DumbExtend;
+import frc.robot.commands.extensionarm.DumbRetract;
+import frc.robot.commands.extensionarm.BaseExtension;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.*;
@@ -51,7 +55,8 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     m_chassis.setDefaultCommand(new Drive(m_chassis, this));
-    m_extension.setDefaultCommand(new ExtensionExtend(m_extension,this));
+    m_extension.setDefaultCommand(new BaseExtension(m_extension, this));
+    //m_extension.setDefaultCommand(new ExtensionExtend(m_extension, this));
   }
 
 
@@ -71,14 +76,9 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-
     new JoystickButton(m_WeaponsGamepad, 1).whileTrue(new AutoZeroExtensionArm(m_extension));
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-
-
+    new POVButton(m_weaponsGamepad, Constants.XBOXButtons.LST_POV_N).whileTrue(new DumbExtend(m_extension, this));
+    new POVButton(m_weaponsGamepad, Constants.XBOXButtons.LST_POV_S).whileTrue(new DumbRetract(m_extension, this));
     new JoystickButton(m_weaponsGamepad, 3).whileTrue(new IntakeCone(getManipulator()));
     new JoystickButton(m_weaponsGamepad, 4).whileTrue(new IntakeCube(getManipulator()));
     new JoystickButton(m_weaponsGamepad, 5).whileTrue(new OuttakeCone(getManipulator()));
