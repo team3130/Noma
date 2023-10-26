@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import frc.robot.Constants;
@@ -24,13 +23,13 @@ public class Manipulator extends SubsystemBase {
     m_manipulatorMotor.setInverted(false);
   }
 
-  public void Manipulate (double speed) {
+  public void manipulate() {
       /** "speed" is perf to make an actual variable (rather than a parameter) and export in shuffleboard -Giorgia*/
       m_manipulatorMotor.set(ControlMode.PercentOutput, speed);
   }
 
-  public void setSpeed(double speed) {
-      m_manipulatorMotor.set(ControlMode.PercentOutput, speed);
+  public void setSpeed(double newSpeed) {
+      speed = newSpeed;
   }
 
   public double getSpeed() {
