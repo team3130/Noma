@@ -27,7 +27,7 @@ public class OuttakeCone extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_manipulator.manipulate();
+    m_manipulator.outtakeCone();
   }
 
   // Called once the command ends or is interrupted.

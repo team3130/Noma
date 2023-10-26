@@ -13,6 +13,10 @@ import frc.robot.Constants;
 public class Manipulator extends SubsystemBase {
 
   private final WPI_TalonFX m_manipulatorMotor; // we should probably change these names once we learn more
+  private double intakeConeSpeed;
+  private double intakeCubeSpeed;
+  private double outtakeConeSpeed;
+  private double outtakeCubeSpeed;
   private double speed;
   private String intakeMode;
 
@@ -23,13 +27,9 @@ public class Manipulator extends SubsystemBase {
     m_manipulatorMotor.setInverted(false);
   }
 
-  public void manipulate() {
-      /** "speed" is perf to make an actual variable (rather than a parameter) and export in shuffleboard -Giorgia*/
-      m_manipulatorMotor.set(ControlMode.PercentOutput, speed);
-  }
-
   public void setSpeed(double newSpeed) {
       speed = newSpeed;
+      m_manipulatorMotor.set(ControlMode.PercentOutput, newSpeed);
   }
 
   public double getSpeed() {
@@ -37,12 +37,39 @@ public class Manipulator extends SubsystemBase {
   }
 
   public void setIntakeMode(int mode) {
-      if(mode == 1){intakeMode="Intake Cone";} // TODO
-      else if(mode == 1){intakeMode="Intake Cube";} // TODO
-      else if(mode == 1){intakeMode="Outtake Cone";} // TODO
-      else if(mode == 1){intakeMode="Outtake Cone";} // TODO
+      if(mode == 1) {
+          intakeMode="Intake Cone";
+      }
+      else if(mode == 2) {
+          intakeMode="Intake Cube";
+      }
+      else if(mode == 3 ){
+          intakeMode="Outtake Cone";
+      }
+      else if(mode == 4) {
+          intakeMode="Outtake Cone";
+      }
   }
-
+  public void intakeCone() {
+      setSpeed(intakeConeSpeed);
+      setIntakeMode(1);
+      speed = intakeConeSpeed;
+  }
+  public void intakeCube() {
+      setSpeed(intakeCubeSpeed);
+      setIntakeMode(2);
+      speed = intakeCubeSpeed;
+  }
+  public void outtakeCone() {
+      setSpeed(outtakeConeSpeed);
+      setIntakeMode(3);
+      speed = outtakeConeSpeed;
+  }
+  public void outtakeCube() {
+      setSpeed(outtakeCubeSpeed);
+      setIntakeMode(4);
+      speed = outtakeCubeSpeed;
+  }
   public String getIntakeMode() {
       return intakeMode;
   }

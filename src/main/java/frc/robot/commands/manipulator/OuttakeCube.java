@@ -27,7 +27,7 @@ public class OuttakeCube extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_manipulator.manipulate();
+    m_manipulator.outtakeCube();
   }
 
   // Called once the command ends or is interrupted.
