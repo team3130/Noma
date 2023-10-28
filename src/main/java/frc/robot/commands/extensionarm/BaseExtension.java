@@ -33,7 +33,7 @@ public class BaseExtension extends CommandBase {
   @Override
   public void execute() {
     double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1); // get value of joystick
-    m_ExtensionArm.setSpeed(m_ExtensionArm.rawMotorSpeed(y)); //set speed based on joystick value; if arm moves to the ends, then set speed to zero and don't let them go further
+    m_ExtensionArm.runMotor(m_ExtensionArm.rawMotorSpeed(y)); //set speed based on joystick value; if arm moves to the ends, then set speed to zero and don't let them go further
   }
 
   // Called once the command ends or is interrupted.

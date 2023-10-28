@@ -5,24 +5,22 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.CAN;
 import frc.robot.RobotContainer;
 
 public class ExtensionArm extends SubsystemBase {
-  private final WPI_TalonFX m_leftMotor;
-  private final WPI_TalonFX m_rightMotor;
+  private final WPI_TalonSRX m_leftMotor;
+  private final WPI_TalonSRX m_rightMotor;
 
   private final MotorControllerGroup m_extensionMotors;
 
@@ -38,8 +36,11 @@ public class ExtensionArm extends SubsystemBase {
   public static double dumbSpeed = .15;
 
   public ExtensionArm() {
-    m_leftMotor = new WPI_TalonFX(Constants.CAN.leftMotor);
-    m_rightMotor = new WPI_TalonFX(Constants.CAN.rightMotor);
+    m_leftMotor = new WPI_TalonSRX(Constants.CAN.leftMotor);
+    m_rightMotor = new WPI_TalonSRX(Constants.CAN.rightMotor);
+
+    m_leftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    m_rightMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
     m_limitSwitch = new DigitalInput(CAN.limitSwitch);
 
@@ -70,14 +71,29 @@ public class ExtensionArm extends SubsystemBase {
     return m_leftMotor.getSelectedSensorPosition() * extensionTicksToArmDistance;
   }
 
-  public double getSpeed(){
-    return m_leftMotor.getSelectedSensorVelocity() * extensionTicksToArmDistance;
+  public double getDumbSpeed(){
+    return dumbSpeed;
   }
 
-  public void setSpeed(double speed){
-    m_rightMotor.set(ControlMode.PercentOutput, speed);
-    m_leftMotor.set(ControlMode.PercentOutput, speed);
+  public void setDumbSpeed(double x){
+    dumbSpeed = x;
   }
+
+  public void runDumbExtend(){
+    m_rightMotor.set(ControlMode.PercentOutput, dumbSpeed);
+    m_leftMotor.set(ControlMode.PercentOutput, dumbSpeed);
+  }
+
+  public void runDumbRetract(){
+    m_rightMotor.set(ControlMode.PercentOutput, -dumbSpeed);
+    m_leftMotor.set(ControlMode.PercentOutput, -dumbSpeed);
+  }
+
+  public void runMotor(double speed){
+    m_leftMotor.set(ControlMode.PercentOutput, speed);
+    m_rightMotor.set(ControlMode.PercentOutput, speed);
+  }
+
   public void stop(){
     m_rightMotor.set(ControlMode.PercentOutput,0);
     m_leftMotor.set(ControlMode.PercentOutput,0);
@@ -140,14 +156,10 @@ public class ExtensionArm extends SubsystemBase {
   public boolean allowedToMovePastEnds(double y) {
     if (LimitSwitch() && (y <= 0)) { // if trying to move past the limit switch, return false
       return false;
-    }
-    else if ((getPosition() >= maxExtensionTicks) && (y >= 0)) { // if trying to move past maxTicks, return false
+    } else if ((getPosition() >= maxExtensionTicks) && (y >= 0)) { // if trying to move past maxTicks, return false
       return false;
     }
     return true;
-  }
-  public void dumbSetSpeed(int x) {
-    setSpeed(dumbSpeed * x);
   }
 
   @Override
@@ -196,14 +208,6 @@ public class ExtensionArm extends SubsystemBase {
     extensionFactorScalar = x;
   }
 
-  public void setDumbSpeed(double x){
-    dumbSpeed = x;
-  }
-
-  public double getDumbSpeed(){
-    return dumbSpeed;
-  }
-
   public double getPercentage() {
     return percentage;
   }
@@ -213,14 +217,13 @@ public class ExtensionArm extends SubsystemBase {
   /**Shuffleboard output*/
   public void initSendable(SendableBuilder builder){
     builder.addDoubleProperty("Position", this::getPosition, null);
-    builder.addDoubleProperty("Motor Speed", this::getSpeed, this::setSpeed);
+    builder.addDoubleProperty("Dumb Speed", this::getDumbSpeed, this::setDumbSpeed);
     builder.addBooleanProperty("Hit Limit Switch", this::LimitSwitch, null);
     builder.addDoubleProperty("CMax Extension Ticks", this::getMaxExtensionTicks, this::setMaxExtensionTicks);
     builder.addDoubleProperty("CExtension Deadband", this::getkExtensionDeadband, this::setkExtensionDeadband);
     builder.addDoubleProperty("CSlow Zone Extension Percentage", this::getPercentage, this::setSlowExtensionEndsDistance);
     builder.addDoubleProperty("CExtension Ticks to Arm Distance Conversion Factor", this::getExtensionTicksToArmDistance, this::setExtensionTicksToArmDistance); // idk why we have this here - cant we just use formulas to find this?
     builder.addDoubleProperty("CExtension Factor Scalar", this::getExtensionFactorScalar, this::setExtensionFactorScalar);
-    builder.addDoubleProperty("CDumb", this::getDumbSpeed, this::setDumbSpeed);
     //titles with "C" in front are constants that need to be determined through experimentation
   }
   @Override

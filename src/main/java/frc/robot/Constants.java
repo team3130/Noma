@@ -110,14 +110,5 @@ public final class Constants {
   public static class Extension {
     public static final int maxVoltage = 8;
 
-    /**
-     * all need to be found experimentally
-     */
-    public static final double maxExtensionTicks = 100; // TODO
-    public static final double kExtensionDeadband = 0.05; // TODO
-    public static final double slowExtensionEndsDistance = 0; // TODO // the distance from the ends of the arm required to start slowing the motor down
-    public static final double extensionTicksToArmDistance = 0; // TODO // conversion factor from ticks to distance of arm extension
-    public static final double extensionFactorScalar = 5; // TODO // magic number (e.g. setspeed(motorposition / magic number))
-
   }
 }

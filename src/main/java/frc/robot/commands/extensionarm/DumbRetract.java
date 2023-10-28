@@ -20,14 +20,12 @@ public class DumbRetract extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {m_ExtensionArm.runDumbExtend();}
   
   // Called every time the scheduler runs while the command is scheduled.
   /** try to downsize some conditions to seperate methods in your subsystem -Giorgia*/
   @Override
-  public void execute() {
-    m_ExtensionArm.dumbSetSpeed(-1); // you will need to change this
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

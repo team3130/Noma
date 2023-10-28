@@ -22,13 +22,12 @@ public class OuttakeCone extends CommandBase {
   @Override
   public void initialize() {
     m_manipulator.setIntakeMode(3);
+    m_manipulator.outtakeCone();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_manipulator.outtakeCone();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

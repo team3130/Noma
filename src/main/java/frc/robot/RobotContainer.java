@@ -89,7 +89,7 @@ public class RobotContainer {
    * Schedules a command to zero the extension arm
    */
   public CommandBase zeroCommand() {
-    return new SequentialCommandGroup(new AutoZeroExtensionArm(m_extension));
+    return (new AutoZeroExtensionArm(m_extension));
   }
 
   /**

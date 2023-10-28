@@ -5,7 +5,6 @@
 package frc.robot.commands.extensionarm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExtensionArm;
 
@@ -41,11 +40,11 @@ public class ExtensionExtend extends CommandBase {
   public void execute() {
     if (m_ExtensionArm.inSlowZone()) { // if arm is in slow zone, then get value of joystick and set speed based on adjusted joystick value
       double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
-      m_ExtensionArm.setSpeed(m_ExtensionArm.rawMotorSpeed(y) * m_ExtensionArm.slowZoneFactor());
+      m_ExtensionArm.runMotor(m_ExtensionArm.rawMotorSpeed(y) * m_ExtensionArm.slowZoneFactor());
     }
     else {
       double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1); // if arm is not in slow zone, then get value of joystick and set speed based on joystick value
-      m_ExtensionArm.setSpeed(m_ExtensionArm.rawMotorSpeed(y));
+      m_ExtensionArm.runMotor(m_ExtensionArm.rawMotorSpeed(y));
     }
   }
 

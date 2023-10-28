@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -12,28 +13,22 @@ import frc.robot.Constants;
 
 public class Manipulator extends SubsystemBase {
 
-  private final WPI_TalonFX m_manipulatorMotor; // we should probably change these names once we learn more
-  private double intakeConeSpeed;
-  private double intakeCubeSpeed;
-  private double outtakeConeSpeed;
-  private double outtakeCubeSpeed;
-  private double speed;
+  private final WPI_TalonSRX m_manipulatorMotor; // we should probably change these names once we learn more
+  private double intakeConeSpeed = .25;
+  private double intakeCubeSpeed = .25;
+  private double outtakeConeSpeed = .25;
+  private double outtakeCubeSpeed = .25;
   private String intakeMode;
 
 
   public Manipulator() {
-    m_manipulatorMotor = new WPI_TalonFX(Constants.CAN.manipulatorMotor);
+    m_manipulatorMotor = new WPI_TalonSRX(Constants.CAN.manipulatorMotor);
     m_manipulatorMotor.configFactoryDefault();
     m_manipulatorMotor.setInverted(false);
   }
 
-  public void setSpeed(double newSpeed) {
-      speed = newSpeed;
+  public void runMotor(double newSpeed) {
       m_manipulatorMotor.set(ControlMode.PercentOutput, newSpeed);
-  }
-
-  public double getSpeed() {
-      return speed;
   }
 
   public void setIntakeMode(int mode) {
@@ -51,27 +46,54 @@ public class Manipulator extends SubsystemBase {
       }
   }
   public void intakeCone() {
-      setSpeed(intakeConeSpeed);
+      runMotor(intakeConeSpeed);
       setIntakeMode(1);
-      speed = intakeConeSpeed;
   }
   public void intakeCube() {
-      setSpeed(intakeCubeSpeed);
+      runMotor(intakeCubeSpeed);
       setIntakeMode(2);
-      speed = intakeCubeSpeed;
   }
   public void outtakeCone() {
-      setSpeed(outtakeConeSpeed);
+      runMotor(outtakeConeSpeed);
       setIntakeMode(3);
-      speed = outtakeConeSpeed;
   }
   public void outtakeCube() {
-      setSpeed(outtakeCubeSpeed);
+      runMotor(outtakeCubeSpeed);
       setIntakeMode(4);
-      speed = outtakeCubeSpeed;
+  }
+  public double getSpeedIntakeCone() {
+      return intakeConeSpeed;
+  }
+
+  public double getSpeedIntakeCube() {
+      return intakeCubeSpeed;
+  }
+
+  public double getSpeedOuttakeCone() {
+      return outtakeConeSpeed;
+  }
+
+  public double getSpeedOuttakeCube() {
+      return outtakeCubeSpeed;
   }
   public String getIntakeMode() {
       return intakeMode;
+  }
+
+  public void setSpeedIntakeCone(double x) {
+      intakeConeSpeed = x;
+  }
+
+  public void setSpeedIntakeCube(double x) {
+      intakeCubeSpeed = x;
+  }
+
+  public void setSpeedOuttakeCone(double x) {
+      outtakeConeSpeed = x;
+  }
+
+  public void setSpeedOuttakeCube(double x) {
+      outtakeCubeSpeed = x;
   }
 
   public void StopManipulator() {
@@ -83,7 +105,10 @@ public class Manipulator extends SubsystemBase {
   }
 
   public void initSendable(SendableBuilder builder) {
-      builder.addDoubleProperty("Motor Speed", this::getSpeed, this::setSpeed);
+      builder.addDoubleProperty("Motor Speed: Intake Cone", this::getSpeedIntakeCone, this::setSpeedIntakeCone);
+      builder.addDoubleProperty("Motor Speed: Intake Cube", this::getSpeedIntakeCube, this::setSpeedIntakeCube);
+      builder.addDoubleProperty("Motor Speed: Outtake Cone", this::getSpeedOuttakeCone, this::setSpeedOuttakeCone);
+      builder.addDoubleProperty("Motor Speed: Outtake Cube", this::getSpeedOuttakeCube, this::setSpeedOuttakeCube);
       builder.addStringProperty("Intake Mode", this::getIntakeMode, null);
   }
 
