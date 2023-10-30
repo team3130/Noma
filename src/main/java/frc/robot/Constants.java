@@ -22,6 +22,8 @@ public final class Constants {
   public static boolean all = false;
 
   public static class CAN {
+    public static final int pdp = 0;
+    public static final int pcm = 1;
     public static final int frontLeftDrive = 2; // TO-DO
     public static final int frontRightDrive = 3; // TO-DO
     public static final int backLeftDrive = 4; // TO-DO
@@ -31,8 +33,6 @@ public final class Constants {
     public static final int rightMotor = 7;//TO-DO
 
     public static final int intakeMotor = 9; // TO-DO
-    public static final int manipulatorMotor = 0; // TODO
-
 
 
     public static final int PCM = 0;
