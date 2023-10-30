@@ -5,50 +5,39 @@
 package frc.robot.commands.extensionarm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExtensionArm;
 
 /** An example command that uses an example subsystem. */
-public class AutoZeroExtensionArm extends CommandBase {
+public class ZeroEncoders extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ExtensionArm m_extensionArm;
+  private final ExtensionArm m_ExtensionArm;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public AutoZeroExtensionArm(ExtensionArm subsystem) {
-    m_extensionArm = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
+  public ZeroEncoders(ExtensionArm subsystem) {
+    m_ExtensionArm = subsystem;
     addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+      m_ExtensionArm.resetEncoders();
+      m_ExtensionArm.setZeroed();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_extensionArm.runMotor(-.25);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_extensionArm.stop();
-    if (!interrupted) {
-      m_extensionArm.resetEncoders();
-    }
-    m_extensionArm.setZeroed();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_extensionArm.LimitSwitch();
+    return false;
   }
-
 }
+
+
