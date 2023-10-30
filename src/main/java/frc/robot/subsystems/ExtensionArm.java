@@ -23,9 +23,7 @@ public class ExtensionArm extends SubsystemBase {
   private final WPI_TalonSRX m_rightMotor;
 
   private final MotorControllerGroup m_extensionMotors;
-
-  private final DigitalInput m_limitSwitch;
-  private boolean isZeroed = false;
+  private boolean isZeroed = true;
 /**Extension arm testing constants*/
   public static double maxExtensionTicks = 100; // TODO
   public static double kExtensionDeadband = 0.05; //The % of max extension where it will slow down (works on both ends)
@@ -41,8 +39,6 @@ public class ExtensionArm extends SubsystemBase {
 
     m_leftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     m_rightMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-
-    m_limitSwitch = new DigitalInput(CAN.limitSwitch);
 
     m_rightMotor.configFactoryDefault();
     m_leftMotor.configFactoryDefault();
@@ -63,10 +59,6 @@ public class ExtensionArm extends SubsystemBase {
   }
 
   /**returns if the limit switch has been hit*/
-  public boolean LimitSwitch(){
-    return m_limitSwitch.get();
-  }
-
   public double getPosition(){
     return m_leftMotor.getSelectedSensorPosition() * extensionTicksToArmDistance;
   }
@@ -154,7 +146,7 @@ public class ExtensionArm extends SubsystemBase {
   }
 
   public boolean allowedToMovePastEnds(double y) {
-    if (LimitSwitch() && (y <= 0)) { // if trying to move past the limit switch, return false
+    if ((getPosition() <= 0) && (y <= 0)) { // if trying to move past the limit switch, return false
       return false;
     } else if ((getPosition() >= maxExtensionTicks) && (y >= 0)) { // if trying to move past maxTicks, return false
       return false;
@@ -218,7 +210,6 @@ public class ExtensionArm extends SubsystemBase {
   public void initSendable(SendableBuilder builder){
     builder.addDoubleProperty("Position", this::getPosition, null);
     builder.addDoubleProperty("Dumb Speed", this::getDumbSpeed, this::setDumbSpeed);
-    builder.addBooleanProperty("Hit Limit Switch", this::LimitSwitch, null);
     builder.addDoubleProperty("CMax Extension Ticks", this::getMaxExtensionTicks, this::setMaxExtensionTicks);
     builder.addDoubleProperty("CExtension Deadband", this::getkExtensionDeadband, this::setkExtensionDeadband);
     builder.addDoubleProperty("CSlow Zone Extension Percentage", this::getPercentage, this::setSlowExtensionEndsDistance);

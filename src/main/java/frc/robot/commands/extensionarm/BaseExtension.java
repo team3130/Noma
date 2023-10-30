@@ -22,12 +22,7 @@ public class BaseExtension extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    if(m_ExtensionArm.LimitSwitch()){ // if limit switch is hit, then zero encoders
-      m_ExtensionArm.resetEncoders();
-      m_ExtensionArm.setZeroed();
-    }
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
