@@ -5,21 +5,18 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commands.extensionarm.*;
 import frc.robot.commands.manipulator.IntakeCone;
 import frc.robot.commands.manipulator.IntakeCube;
 import frc.robot.commands.manipulator.OuttakeCone;
 import frc.robot.commands.manipulator.OuttakeCube;
-import frc.robot.commands.extensionarm.DumbExtend;
-import frc.robot.commands.extensionarm.DumbRetract;
-import frc.robot.commands.extensionarm.BaseExtension;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.*;
-import frc.robot.commands.extensionarm.AutoZeroExtensionArm;
-import frc.robot.commands.extensionarm.ExtensionExtend;
 import frc.robot.commands.framework.Autos;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -76,7 +73,6 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    new JoystickButton(m_WeaponsGamepad, 1).whileTrue(new AutoZeroExtensionArm(m_extension));
     new POVButton(m_weaponsGamepad, Constants.XBOXButtons.LST_POV_N).whileTrue(new DumbExtend(m_extension, this));
     new POVButton(m_weaponsGamepad, Constants.XBOXButtons.LST_POV_S).whileTrue(new DumbRetract(m_extension, this));
     new JoystickButton(m_weaponsGamepad, 3).whileTrue(new IntakeCone(getManipulator()));
@@ -88,8 +84,8 @@ public class RobotContainer {
   /**
    * Schedules a command to zero the extension arm
    */
-  public CommandBase zeroCommand() {
-    return (new AutoZeroExtensionArm(m_extension));
+  public CommandBase zeroEncoders() {
+    return (new ZeroEncoders(m_extension));
   }
 
   /**
