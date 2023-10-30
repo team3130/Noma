@@ -73,7 +73,6 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    new JoystickButton(m_WeaponsGamepad, 1).whileTrue(new AutoZeroExtensionArm(m_extension));
     new POVButton(m_weaponsGamepad, Constants.XBOXButtons.LST_POV_N).whileTrue(new DumbExtend(m_extension, this));
     new POVButton(m_weaponsGamepad, Constants.XBOXButtons.LST_POV_S).whileTrue(new DumbRetract(m_extension, this));
     new JoystickButton(m_weaponsGamepad, 3).whileTrue(new IntakeCone(getManipulator()));
@@ -86,7 +85,7 @@ public class RobotContainer {
    * Schedules a command to zero the extension arm
    */
   public CommandBase zeroCommand() {
-    return (new AutoZeroExtensionArm(m_extension));
+    return null;
   }
   public CommandBase zeroEncoders() {
     return (new ZeroEncoders(m_extension));
