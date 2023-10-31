@@ -87,6 +87,9 @@ public class RobotContainer {
   public CommandBase zeroEncoders() {
     return (new ZeroEncoders(m_extension));
   }
+  public CommandBase zeroEncoders() {
+    return (new ZeroEncoders(m_extension));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
