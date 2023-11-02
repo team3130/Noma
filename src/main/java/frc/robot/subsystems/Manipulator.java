@@ -18,7 +18,7 @@ public class Manipulator extends SubsystemBase {
   private double intakeCubeSpeed = .25;
   private double outtakeConeSpeed = .25;
   private double outtakeCubeSpeed = .25;
-  private String intakeMode;
+  private String intakeMode = "";
 
 
   public Manipulator() {
