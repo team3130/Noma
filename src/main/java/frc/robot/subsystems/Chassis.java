@@ -31,7 +31,7 @@ public class Chassis extends SubsystemBase {
   private final MotorControllerGroup m_motorsRight; //houses all the motors on the right side of the drivetrain
   private final MotorControllerGroup m_motorsLeft; //both right and left are used as a parameter for DifferentialDrive methods
 
-  private final Navx m_navx = Navx.GetInstance();
+  //private final Navx m_navx = Navx.GetInstance();
 
   
   public Chassis() {
