@@ -36,7 +36,7 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_chassis.driveArcade(-RobotContainer.m_DriverGamepad.getRawAxis(1), -RobotContainer.m_DriverGamepad.getRawAxis(2), true); //method to drive
+    m_chassis.driveArcade(-RobotContainer.m_DriverGamepad.getRawAxis(1), -RobotContainer.m_DriverGamepad.getRawAxis(4), true); //method to drive
   }
 
   // Called once the command ends or is interrupted.
