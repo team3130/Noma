@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj.Joystick;
@@ -41,27 +43,34 @@ public class RobotContainer {
   private final Chassis m_chassis = new Chassis();
   private final Manipulator m_manipulator = new Manipulator();
   private final ExtensionArm m_extension = new ExtensionArm();
-  public static Joystick m_DriverGamepad = new Joystick(0);
+  public static XboxController m_DriverGamepad = new XboxController(0);
   public static Joystick m_WeaponsGamepad = new Joystick(1);
 
-  private final XboxController m_weaponsGamepad;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    m_weaponsGamepad = new XboxController(1);
+    m_WeaponsGamepad = new Joystick(1);
+    m_DriverGamepad = new XboxController(0);
 
     // Configure the trigger bindings
     configureBindings();
     m_chassis.setDefaultCommand(new Drive(m_chassis, this));
     m_extension.setDefaultCommand(new BaseExtension(m_extension, this));
     //m_extension.setDefaultCommand(new ExtensionExtend(m_extension, this));
+    vomitShuffleBoardData();
   }
 
 
   public Manipulator getManipulator() {
     return m_manipulator;
+  }
+  public void vomitShuffleBoardData() {
+      ShuffleboardTab tab = Shuffleboard.getTab("Subsystems");
+      tab.add(m_chassis);
+      tab.add(m_extension);
+      tab.add(m_manipulator);
   }
 
 
@@ -77,12 +86,12 @@ public class RobotContainer {
   private void configureBindings() {
 
     new JoystickButton(m_WeaponsGamepad, 1).whileTrue(new AutoZeroExtensionArm(m_extension));
-    new POVButton(m_weaponsGamepad, Constants.XBOXButtons.LST_POV_N).whileTrue(new DumbExtend(m_extension, this));
-    new POVButton(m_weaponsGamepad, Constants.XBOXButtons.LST_POV_S).whileTrue(new DumbRetract(m_extension, this));
-    new JoystickButton(m_weaponsGamepad, 3).whileTrue(new IntakeCone(getManipulator()));
-    new JoystickButton(m_weaponsGamepad, 4).whileTrue(new IntakeCube(getManipulator()));
-    new JoystickButton(m_weaponsGamepad, 5).whileTrue(new OuttakeCone(getManipulator()));
-    new JoystickButton(m_weaponsGamepad, 6).whileTrue(new OuttakeCube(getManipulator()));
+    new POVButton(m_WeaponsGamepad, Constants.XBOXButtons.LST_POV_N).whileTrue(new DumbExtend(m_extension, this));
+    new POVButton(m_WeaponsGamepad, Constants.XBOXButtons.LST_POV_S).whileTrue(new DumbRetract(m_extension, this));
+    new JoystickButton(m_WeaponsGamepad, 3).whileTrue(new IntakeCone(getManipulator()));
+    new JoystickButton(m_WeaponsGamepad, 4).whileTrue(new IntakeCube(getManipulator()));
+    new JoystickButton(m_WeaponsGamepad, 5).whileTrue(new OuttakeCone(getManipulator()));
+    new JoystickButton(m_WeaponsGamepad, 6).whileTrue(new OuttakeCube(getManipulator()));
   }
 
   /**

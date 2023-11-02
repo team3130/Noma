@@ -214,7 +214,6 @@ public class ExtensionArm extends SubsystemBase {
 
 
   @Override
-  /**Shuffleboard output*/
   public void initSendable(SendableBuilder builder){
     builder.addDoubleProperty("Position", this::getPosition, null);
     builder.addDoubleProperty("Dumb Speed", this::getDumbSpeed, this::setDumbSpeed);

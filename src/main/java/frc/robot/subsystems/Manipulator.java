@@ -104,6 +104,7 @@ public class Manipulator extends SubsystemBase {
   public void periodic() {
   }
 
+  @Override
   public void initSendable(SendableBuilder builder) {
       builder.addDoubleProperty("Motor Speed: Intake Cone", this::getSpeedIntakeCone, this::setSpeedIntakeCone);
       builder.addDoubleProperty("Motor Speed: Intake Cube", this::getSpeedIntakeCube, this::setSpeedIntakeCube);
