@@ -40,7 +40,7 @@ public class BaseExtension extends CommandBase {
       y = 0;
     }
 
-    m_ExtensionArm.runMotor(m_ExtensionArm.rawMotorSpeed(-y));
+    m_ExtensionArm.runMotor(-y);
 
     if(m_ExtensionArm.LimitSwitch()){
       m_ExtensionArm.resetEncoders();

@@ -27,8 +27,8 @@ public class ExtensionArm extends SubsystemBase {
   private final DigitalInput m_limitSwitch;
   private boolean isZeroed = false;
 /**Extension arm testing constants*/
-  public static double maxExtensionTicks = 100; // TODO
-  public static double kExtensionDeadband = 0.05; //The % of max extension where it will slow down (works on both ends)
+  public static double maxExtensionTicks = 18300; // TODO
+  public static double kExtensionDeadband = 0.1; //The % of max extension where it will slow down (works on both ends)
   public static double percentage = 15;
   public static double slowExtensionEndsDistance = (percentage / 100) * maxExtensionTicks; // TODO // the distance from the ends of the arm required to start slowing the motor down
   public static double extensionTicksToArmDistance = 0; // TODO // conversion factor from ticks to distance of arm extension
