@@ -32,8 +32,20 @@ public class BaseExtension extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1); // get value of joystick
-    m_ExtensionArm.runMotor(m_ExtensionArm.rawMotorSpeed(y)); //set speed based on joystick value; if arm moves to the ends, then set speed to zero and don't let them go further
+    double y = -RobotContainer.m_WeaponsGamepad.getRawAxis(1); // get value of joystick
+    if(m_ExtensionArm.LimitSwitch() && y < 0) {
+      y = 0;
+    }
+    else if ((m_ExtensionArm.getPosition() >= m_ExtensionArm.getMaxExtensionTicks())&& y > 0) {
+      y = 0;
+    }
+
+    m_ExtensionArm.runMotor(m_ExtensionArm.rawMotorSpeed(-y));
+
+    if(m_ExtensionArm.LimitSwitch()){
+      m_ExtensionArm.resetEncoders();
+      m_ExtensionArm.setZeroed();
+    }
   }
 
   // Called once the command ends or is interrupted.

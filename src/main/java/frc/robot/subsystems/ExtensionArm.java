@@ -53,8 +53,8 @@ public class ExtensionArm extends SubsystemBase {
     m_leftMotor.enableVoltageCompensation(true);
     m_rightMotor.enableVoltageCompensation(true);
 
-    m_rightMotor.setInverted(false);
-    m_leftMotor.setInverted(true);
+    m_rightMotor.setInverted(true);
+    m_leftMotor.setInverted(false);
 
     m_extensionMotors = new MotorControllerGroup(m_leftMotor, m_rightMotor);
 
@@ -64,11 +64,11 @@ public class ExtensionArm extends SubsystemBase {
 
   /**returns if the limit switch has been hit*/
   public boolean LimitSwitch(){
-    return m_limitSwitch.get();
+    return !m_limitSwitch.get();
   }
 
   public double getPosition(){
-    return m_leftMotor.getSelectedSensorPosition() * extensionTicksToArmDistance;
+    return -m_rightMotor.getSelectedSensorPosition();
   }
 
   public double getDumbSpeed(){

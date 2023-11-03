@@ -15,8 +15,8 @@ public class Manipulator extends SubsystemBase {
 
   private final WPI_TalonSRX m_manipulatorMotor; // we should probably change these names once we learn more
   private double intakeConeSpeed = .25;
-  private double intakeCubeSpeed = .25;
-  private double outtakeConeSpeed = .25;
+  private double intakeCubeSpeed = -.25;
+  private double outtakeConeSpeed = -.25;
   private double outtakeCubeSpeed = .25;
   private String intakeMode = "";
 
