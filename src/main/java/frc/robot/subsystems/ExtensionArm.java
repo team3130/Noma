@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -70,6 +71,9 @@ public class ExtensionArm extends SubsystemBase {
   public double getPosition(){
     return -m_rightMotor.getSelectedSensorPosition();
   }
+  public double getVelocity(){
+    return -m_rightMotor.getSelectedSensorVelocity();
+  }
 
   public double getDumbSpeed(){
     return dumbSpeed;
@@ -115,7 +119,23 @@ public class ExtensionArm extends SubsystemBase {
 
   /**returns if the arm has retracted or extended into the danger(slow) zones*/
   public boolean inSlowZone() {
-    if((getPosition()<=slowExtensionEndsDistance)&&(getPosition()>=maxExtensionTicks-slowExtensionEndsDistance)){
+    if((getPosition()<=slowExtensionEndsDistance)||(getPosition()>=maxExtensionTicks-slowExtensionEndsDistance)){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  public boolean inSmallZone() {
+    if((getPosition()<=slowExtensionEndsDistance)){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  public boolean inBigZone() {
+    if((getPosition()>=maxExtensionTicks-slowExtensionEndsDistance)){
       return true;
     }
     else {
@@ -147,7 +167,7 @@ public class ExtensionArm extends SubsystemBase {
     if (kExtensionDeadband >= Math.abs(y)) { // if the fetched joystick value is less than the deadband value, then set speed to 0
       return 0;
     }
-    if (!allowedToMovePastEnds(y)) { // if arm hits the ends and is trying to move past the ends, then set speed to zero
+    if (!allowedToMovePastEnds(-y)) { // if arm hits the ends and is trying to move past the ends, then set speed to zero
       return 0;
     }
     return y;
@@ -156,7 +176,8 @@ public class ExtensionArm extends SubsystemBase {
   public boolean allowedToMovePastEnds(double y) {
     if (LimitSwitch() && (y <= 0)) { // if trying to move past the limit switch, return false
       return false;
-    } else if ((getPosition() >= maxExtensionTicks) && (y >= 0)) { // if trying to move past maxTicks, return false
+    } 
+    else if ((getPosition() >= maxExtensionTicks) && (y >= 0)) { // if trying to move past maxTicks, return false
       return false;
     }
     return true;
@@ -212,6 +233,10 @@ public class ExtensionArm extends SubsystemBase {
     return percentage;
   }
 
+  public double getJoystickValue() {
+    return -RobotContainer.m_WeaponsGamepad.getRawAxis(1);
+  }
+
 
   @Override
   public void initSendable(SendableBuilder builder){
@@ -223,6 +248,11 @@ public class ExtensionArm extends SubsystemBase {
     builder.addDoubleProperty("CSlow Zone Extension Percentage", this::getPercentage, this::setSlowExtensionEndsDistance);
     builder.addDoubleProperty("CExtension Ticks to Arm Distance Conversion Factor", this::getExtensionTicksToArmDistance, this::setExtensionTicksToArmDistance); // idk why we have this here - cant we just use formulas to find this?
     builder.addDoubleProperty("CExtension Factor Scalar", this::getExtensionFactorScalar, this::setExtensionFactorScalar);
+    builder.addBooleanProperty("In Slow Zone", this::inSlowZone, null);
+    builder.addBooleanProperty("In Small Zone", this::inSmallZone, null);
+    builder.addBooleanProperty("In Big Zone", this::inBigZone, null);
+    builder.addDoubleProperty("Extension Motor Velocity", this::getVelocity, null);
+    builder.addDoubleProperty("Joystick Value Y", this::getJoystickValue, null);
     //titles with "C" in front are constants that need to be determined through experimentation
   }
   @Override

@@ -40,11 +40,11 @@ public class ExtensionExtend extends CommandBase {
   public void execute() {
     if (m_ExtensionArm.inSlowZone()) { // if arm is in slow zone, then get value of joystick and set speed based on adjusted joystick value
       double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1);
-      m_ExtensionArm.runMotor(m_ExtensionArm.rawMotorSpeed(y) * m_ExtensionArm.slowZoneFactor());
+      m_ExtensionArm.runMotor(m_ExtensionArm.rawMotorSpeed(y*.5) * m_ExtensionArm.slowZoneFactor());
     }
     else {
       double y = RobotContainer.m_WeaponsGamepad.getRawAxis(1); // if arm is not in slow zone, then get value of joystick and set speed based on joystick value
-      m_ExtensionArm.runMotor(m_ExtensionArm.rawMotorSpeed(y));
+      m_ExtensionArm.runMotor(m_ExtensionArm.rawMotorSpeed(y*.5));
     }
   }
 

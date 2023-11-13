@@ -57,8 +57,8 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     m_chassis.setDefaultCommand(new Drive(m_chassis, this));
-    m_extension.setDefaultCommand(new BaseExtension(m_extension, this));
-    //m_extension.setDefaultCommand(new ExtensionExtend(m_extension, this));
+    //m_extension.setDefaultCommand(new BaseExtension(m_extension, this));
+    m_extension.setDefaultCommand(new ExtensionExtend(m_extension, this));
     vomitShuffleBoardData();
   }
 
