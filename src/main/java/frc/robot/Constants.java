@@ -86,7 +86,7 @@ public final class Constants {
 
   public static class Chassis {
     //Constants for Chassis
-    public static final int maxVoltage = 8; // TODO
+    public static final int maxVoltage = 7; // TODO
     //max voltage for chassis motors
     public static final int encoderResolution = 0; // TODO
     public static final int gearRatio = 0; // TODO
