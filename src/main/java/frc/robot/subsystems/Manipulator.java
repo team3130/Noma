@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,7 +14,8 @@ import frc.robot.Constants;
 
 public class Manipulator extends SubsystemBase {
 
-  private final WPI_TalonSRX m_manipulatorMotor; // we should probably change these names once we learn more
+  private final WPI_TalonSRX m_manipulatorMotor;// we should probably change these names once we learn more
+    private final WPI_TalonSRX m_manipulatorMotor2;
   private double intakeConeSpeed = 1;
   private double intakeCubeSpeed = -1;
   private double outtakeConeSpeed = -1;
@@ -22,11 +24,12 @@ public class Manipulator extends SubsystemBase {
 
 
   public Manipulator() {
-    m_manipulatorMotor.configFactoryDefault();
-    m_manipulatorMotor2.configFactoryDefault();
 
       m_manipulatorMotor = new WPI_TalonSRX(Constants.CAN.intakeMotor);
       m_manipulatorMotor2 = new WPI_TalonSRX(Constants.CAN.intakeMotor2);
+
+      m_manipulatorMotor.configFactoryDefault();
+      m_manipulatorMotor2.configFactoryDefault();
 
     m_manipulatorMotor2.setInverted(true);
     m_manipulatorMotor.setInverted(false);
@@ -37,8 +40,8 @@ public class Manipulator extends SubsystemBase {
     m_manipulatorMotor.enableVoltageCompensation(true);
     m_manipulatorMotor2.enableVoltageCompensation(true);
 
-      m_leftMotor.setNeutralMode(NeutralMode.Coast);
-      m_rightMotor.setNeutralMode(NeutralMode.Coast);
+      m_manipulatorMotor.setNeutralMode(NeutralMode.Coast);
+      m_manipulatorMotor2.setNeutralMode(NeutralMode.Coast);
   }
 
   public void runMotor(double newSpeed) {
