@@ -14,10 +14,10 @@ import frc.robot.Constants;
 public class Manipulator extends SubsystemBase {
 
   private final WPI_TalonSRX m_manipulatorMotor; // we should probably change these names once we learn more
-  private double intakeConeSpeed = .5;
-  private double intakeCubeSpeed = -.5;
-  private double outtakeConeSpeed = -.5;
-  private double outtakeCubeSpeed = .5;
+  private double intakeConeSpeed = 1;
+  private double intakeCubeSpeed = -1;
+  private double outtakeConeSpeed = -1;
+  private double outtakeCubeSpeed = 1;
   private String intakeMode = "";
 
 
