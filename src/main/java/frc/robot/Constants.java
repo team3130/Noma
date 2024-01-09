@@ -33,6 +33,7 @@ public final class Constants {
     public static final int rightMotor = 7;//TO-DO
 
     public static final int intakeMotor = 9; // TO-DO
+    public static final int intakeMotor2 = 8; 
 
 
     public static final int PCM = 0;

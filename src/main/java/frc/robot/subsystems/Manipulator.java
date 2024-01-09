@@ -14,21 +14,38 @@ import frc.robot.Constants;
 public class Manipulator extends SubsystemBase {
 
   private final WPI_TalonSRX m_manipulatorMotor; // we should probably change these names once we learn more
-  private double intakeConeSpeed = .5;
-  private double intakeCubeSpeed = -.5;
-  private double outtakeConeSpeed = -.5;
-  private double outtakeCubeSpeed = .5;
+  private double intakeConeSpeed = 1;
+  private double intakeCubeSpeed = -1;
+  private double outtakeConeSpeed = -1;
+  private double outtakeCubeSpeed = 1;
   private String intakeMode = "";
 
 
   public Manipulator() {
-    m_manipulatorMotor = new WPI_TalonSRX(Constants.CAN.intakeMotor);
     m_manipulatorMotor.configFactoryDefault();
+    m_manipulatorMotor2.configFactoryDefault();
+
+      m_manipulatorMotor = new WPI_TalonSRX(Constants.CAN.intakeMotor);
+      m_manipulatorMotor2 = new WPI_TalonSRX(Constants.CAN.intakeMotor2);
+
+    m_manipulatorMotor2.setInverted(true);
     m_manipulatorMotor.setInverted(false);
+
+    m_manipulatorMotor.configVoltageCompSaturation(8);
+    m_manipulatorMotor2.configVoltageCompSaturation(8);
+
+    m_manipulatorMotor.enableVoltageCompensation(true);
+    m_manipulatorMotor2.enableVoltageCompensation(true);
+
+      m_leftMotor.setNeutralMode(NeutralMode.Coast);
+      m_rightMotor.setNeutralMode(NeutralMode.Coast);
   }
 
   public void runMotor(double newSpeed) {
+
       m_manipulatorMotor.set(ControlMode.PercentOutput, newSpeed);
+      m_manipulatorMotor2.set(ControlMode.PercentOutput, newSpeed);
+
   }
 
   public void setIntakeMode(int mode) {
