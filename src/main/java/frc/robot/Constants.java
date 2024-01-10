@@ -29,8 +29,8 @@ public final class Constants {
     public static final int backLeftDrive = 4; // TO-DO
     public static final int backRightDrive = 5; // TO-DO
 
-    public static final int leftMotor = 6;//TO-DO
-    public static final int rightMotor = 7;//TO-DO
+    public static final int leftMotor = 2;//TO-DO
+    public static final int rightMotor = 2;//TO-DO
 
     public static final int intakeMotor = 8; // TO-DO
     public static final int intake = 9;
