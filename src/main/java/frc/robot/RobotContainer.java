@@ -8,28 +8,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.manipulator.IntakeCone;
-import frc.robot.commands.manipulator.IntakeCube;
-import frc.robot.commands.manipulator.OuttakeCone;
 import frc.robot.commands.manipulator.OuttakeCube;
-import frc.robot.commands.extensionarm.DumbExtend;
-import frc.robot.commands.extensionarm.DumbRetract;
-import frc.robot.commands.extensionarm.BaseExtension;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.*;
-import frc.robot.commands.extensionarm.AutoZeroExtensionArm;
-import frc.robot.commands.extensionarm.ExtensionExtend;
 import frc.robot.commands.framework.Autos;
-import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Manipulator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.ExtensionArm;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -40,9 +27,7 @@ import frc.robot.subsystems.ExtensionArm;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Chassis m_chassis = new Chassis();
   private final Manipulator m_manipulator = new Manipulator();
-  private final ExtensionArm m_extension = new ExtensionArm();
   public static XboxController m_DriverGamepad = new XboxController(0);
   public static Joystick m_WeaponsGamepad = new Joystick(1);
 
@@ -56,10 +41,7 @@ public class RobotContainer {
 
     // Configure the trigger bindings
     configureBindings();
-    m_chassis.setDefaultCommand(new Drive(m_chassis, this));
     //m_extension.setDefaultCommand(new BaseExtension(m_extension, this));
-    m_extension.setDefaultCommand(new ExtensionExtend(m_extension, this));
-    vomitShuffleBoardData();
   }
 
 
@@ -68,8 +50,6 @@ public class RobotContainer {
   }
   public void vomitShuffleBoardData() {
       ShuffleboardTab tab = Shuffleboard.getTab("Subsystems");
-      tab.add(m_chassis);
-      tab.add(m_extension);
       tab.add(m_manipulator);
   }
 
@@ -85,21 +65,14 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    new JoystickButton(m_WeaponsGamepad, 1).whileTrue(new AutoZeroExtensionArm(m_extension));
     //new POVButton(m_WeaponsGamepad, Constants.XBOXButtons.LST_POV_N).whileTrue(new DumbExtend(m_extension, this));
     //new POVButton(m_WeaponsGamepad, Constants.XBOXButtons.LST_POV_S).whileTrue(new DumbRetract(m_extension, this));
-    new JoystickButton(m_WeaponsGamepad, 3).whileTrue(new IntakeCone(getManipulator()));
-    new JoystickButton(m_WeaponsGamepad, 4).whileTrue(new IntakeCube(getManipulator()));
-    new JoystickButton(m_WeaponsGamepad, 5).whileTrue(new OuttakeCone(getManipulator()));
     new JoystickButton(m_WeaponsGamepad, 6).whileTrue(new OuttakeCube(getManipulator()));
   }
 
   /**
    * Schedules a command to zero the extension arm
    */
-  public CommandBase zeroCommand() {
-    return (new AutoZeroExtensionArm(m_extension));
-  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

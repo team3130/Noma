@@ -13,8 +13,10 @@ import frc.robot.Constants;
 
 public class Manipulator extends SubsystemBase {
 
-  private final WPI_TalonSRX m_manipulatorMotor; // we should probably change these names once we learn more
-  private double intakeConeSpeed = .5;
+  private final WPI_TalonSRX m_manipulatorMotor8; // we should probably change these names once we learn more
+    private final WPI_TalonSRX m_manipulatorMotor9; // we should probably change these names once we learn more
+
+    private double intakeConeSpeed = .5;
   private double intakeCubeSpeed = -.5;
   private double outtakeConeSpeed = -.5;
   private double outtakeCubeSpeed = .5;
@@ -22,45 +24,21 @@ public class Manipulator extends SubsystemBase {
 
 
   public Manipulator() {
-    m_manipulatorMotor = new WPI_TalonSRX(Constants.CAN.intakeMotor);
-    m_manipulatorMotor.configFactoryDefault();
-    m_manipulatorMotor.setInverted(false);
+    m_manipulatorMotor8 = new WPI_TalonSRX(Constants.CAN.intakeMotor);
+    m_manipulatorMotor9 = new WPI_TalonSRX(Constants.CAN.intake);
+
+      m_manipulatorMotor8.configFactoryDefault();
+    m_manipulatorMotor9.setInverted(true);
   }
 
-  public void runMotor(double newSpeed) {
-      m_manipulatorMotor.set(ControlMode.PercentOutput, newSpeed);
+  public void runMotor8() {
+      m_manipulatorMotor8.set(ControlMode.PercentOutput, 0.5);
   }
 
-  public void setIntakeMode(int mode) {
-      if(mode == 1) {
-          intakeMode="Intake Cone";
-      }
-      else if(mode == 2) {
-          intakeMode="Intake Cube";
-      }
-      else if(mode == 3 ){
-          intakeMode="Outtake Cone";
-      }
-      else if(mode == 4) {
-          intakeMode="Outtake Cone";
-      }
-  }
-  public void intakeCone() {
-      runMotor(intakeConeSpeed);
-      setIntakeMode(1);
-  }
-  public void intakeCube() {
-      runMotor(intakeCubeSpeed);
-      setIntakeMode(2);
-  }
-  public void outtakeCone() {
-      runMotor(outtakeConeSpeed);
-      setIntakeMode(3);
-  }
-  public void outtakeCube() {
-      runMotor(outtakeCubeSpeed);
-      setIntakeMode(4);
-  }
+    public void runMotor9() {
+        m_manipulatorMotor9.set(ControlMode.PercentOutput, 0.5);
+    }
+
   public double getSpeedIntakeCone() {
       return intakeConeSpeed;
   }
@@ -97,7 +75,8 @@ public class Manipulator extends SubsystemBase {
   }
 
   public void StopManipulator() {
-    m_manipulatorMotor.set(ControlMode.PercentOutput, 0);
+    m_manipulatorMotor9.set(ControlMode.PercentOutput, 0);
+    m_manipulatorMotor8.set(ControlMode.PercentOutput, 0);
   }
 
   @Override
