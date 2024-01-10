@@ -1,5 +1,5 @@
 # Noma Repository
-This is the code for FRC Team ERROR 3130's Mock Build Season Initiative "TrainE.R.R" robot. 
+This is the code for FRC Team ERROR 3130's Mock Build Season Initiative (MBSI) "TrainE.R.R" robot. 
 
 ඞඞඞඞඞඞඞ
 
