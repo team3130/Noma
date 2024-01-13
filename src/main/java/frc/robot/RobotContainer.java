@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.manipulator.OuttakeCube;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.framework.Autos;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Manipulator;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -71,18 +69,4 @@ public class RobotContainer {
     new JoystickButton(m_WeaponsGamepad, 6).whileTrue(new OuttakeCube(getManipulator()));
   }
 
-  /**
-   * Schedules a command to zero the extension arm
-   */
-
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
-  }
 }
