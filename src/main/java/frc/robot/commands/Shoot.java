@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.subsystems.Indexers;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class Shoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Shooter m_shooter;
-  private final Indexers m_indexer;
+  private final Indexer m_indexer;
   private Timer spinUpTime = new Timer();
-  public Shoot(Shooter shooter, Indexers index) {
+  public Shoot(Shooter shooter, Indexer index) {
     m_shooter = shooter;
     m_indexer = index;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -27,22 +27,22 @@ public class Shoot extends CommandBase {
   public void initialize() {
     spinUpTime.reset();
     spinUpTime.start();
-    m_shooter.runMotors();
+    m_shooter.runShooters();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (spinUpTime.hasElapsed(0.5)){
-      m_indexer.runMotors();
+      m_indexer.runIndexers();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.stopShooter();
-    m_indexer.stopShooter();
+    m_shooter.stopShooters();
+    m_indexer.stopIndexers();
   }
 
   // Returns true when the command should end.

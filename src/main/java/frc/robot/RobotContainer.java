@@ -9,11 +9,12 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.Index;
-import frc.robot.commands.JUSTShoot;
+import frc.robot.commands.OnlyIndex;
+import frc.robot.commands.OnlyShoot;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.VelocityShoot;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.Indexers;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -28,7 +29,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Shooter m_shooter = new Shooter();
-  private final Indexers m_indexer = new Indexers();
+  private final Indexer m_indexer = new Indexer();
 
   public static XboxController m_DriverGamepad = new XboxController(0);
   public static Joystick m_WeaponsGamepad = new Joystick(1);
@@ -69,10 +70,10 @@ public class RobotContainer {
   private void configureBindings() {
     //new POVButton(m_WeaponsGamepad, Constants.XBOXButtons.LST_POV_N).whileTrue(new DumbExtend(m_extension, this));
     //new POVButton(m_WeaponsGamepad, Constants.XBOXButtons.LST_POV_S).whileTrue(new DumbRetract(m_extension, this));
-    new JoystickButton(m_WeaponsGamepad, 1).whileTrue(new Shoot(m_shooter, m_indexer));
-    new JoystickButton(m_WeaponsGamepad, 2).whileTrue(new Index( m_indexer));
-    new JoystickButton(m_WeaponsGamepad, 3).whileTrue(new JUSTShoot( m_shooter));
-
+    new JoystickButton(m_WeaponsGamepad, Constants.Buttons.LST_BTN_A).whileTrue(new Shoot(m_shooter, m_indexer));
+    new JoystickButton(m_WeaponsGamepad, Constants.Buttons.LST_BTN_B).whileTrue(new OnlyIndex( m_indexer));
+    new JoystickButton(m_WeaponsGamepad, Constants.Buttons.LST_BTN_X).whileTrue(new OnlyShoot( m_shooter));
+    new JoystickButton(m_WeaponsGamepad, Constants.Buttons.LST_BTN_Y).whileTrue(new VelocityShoot(m_shooter));
 
   }
 

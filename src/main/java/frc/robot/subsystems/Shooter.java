@@ -16,9 +16,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Shooter extends SubsystemBase {
   private final TalonFX leftFlywheel9; // we should probably change these names once we learn more
   private final TalonFX rightFlywheel8; // we should probably change these names once we learn more
-  private double speed8 = 0.85;
-  private double speed9 = 0.85;
-
 
   final VoltageOut leftFlywheelVoltReq = new VoltageOut(0);
   final VoltageOut rightFlywheelVoltReq = new VoltageOut(0);
@@ -29,7 +26,8 @@ public class Shooter extends SubsystemBase {
   Slot0Configs slot0Configs; // gains for specific slot
 
   // Note: phoenix 6 velocity is rotations / second
-  final VelocityVoltage velocity = new VelocityVoltage(0); // class instance
+  final VelocityVoltage velocityRequest = new VelocityVoltage(0); // class instance
+  final double flyWheelVelocity = 8;
 
   /*
   alternative way
@@ -71,8 +69,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setFlywheelVelocity() {
-    velocity.Slot = 0;
-    leftFlywheel9.setControl(velocity.withVelocity(8));
+    velocityRequest.Slot = 0;
+    leftFlywheel9.setControl(velocityRequest.withVelocity(flyWheelVelocity));
 
     // ALT way: set velocity to 8 rps, add 0.5 V to overcome gravity
     // m_talonFX.setControl(velocityRequest.withVelocity(8).withFeedForward(0.5));
@@ -98,12 +96,12 @@ public class Shooter extends SubsystemBase {
     return rightFlywheel8.getSupplyCurrent().getValue();
   }
 
-  public void runMotors() {
+  public void runShooters() {
     leftFlywheel9.setControl(leftFlywheelVoltReq.withOutput(leftFlywheelVolt));
     rightFlywheel8.setControl(rightFlywheelVoltReq.withOutput(rightFlywheelVolt));
   }
 
-  public void stopShooter() {
+  public void stopShooters() {
     leftFlywheel9.setControl(leftFlywheelVoltReq.withOutput(0));
     rightFlywheel8.setControl(rightFlywheelVoltReq.withOutput(0));
   }
@@ -140,19 +138,6 @@ public class Shooter extends SubsystemBase {
     builder.addDoubleProperty("velocity kP", this::getkP, this::setkP);
     builder.addDoubleProperty("velocity kI", this::getkI, this::setkI);
     builder.addDoubleProperty("velocity kD", this::getkD, this::setkD);
-  }
-
-  public double getSpeed8() {
-    return speed8;
-  }
-  public double getSpeed9() {
-    return speed9;
-  }
-  public void setSpeed8(double x) {
-    speed8 = x;
-  }
-  public void setSpeed9(double x){
-    speed9 =x;
   }
 
   @Override

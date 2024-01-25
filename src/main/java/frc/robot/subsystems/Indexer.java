@@ -9,12 +9,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Indexers extends SubsystemBase {
+public class Indexer extends SubsystemBase {
   private final WPI_TalonSRX motor7; // we should probably change these names once we learn more
   private final WPI_TalonSRX motor6; // we should probably change these names once we learn more
   private double speed = 0.80;
 
-  public Indexers() {
+  public Indexer() {
     motor7 = new WPI_TalonSRX(7);
     motor6 = new WPI_TalonSRX(6);
 
@@ -23,7 +23,7 @@ public class Indexers extends SubsystemBase {
     motor6.setInverted(true);
   }
 
-  public void runMotors() {
+  public void runIndexers() {
     motor7.set(ControlMode.PercentOutput, speed);
     motor6.set(ControlMode.PercentOutput, speed);
   }
@@ -32,7 +32,7 @@ public class Indexers extends SubsystemBase {
     return speed;
   }
 
-  public void stopShooter() {
+  public void stopIndexers() {
     motor6.set(ControlMode.PercentOutput, 0);
     motor7.set(ControlMode.PercentOutput, 0);
   }

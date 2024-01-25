@@ -4,16 +4,15 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
 /** An example command that uses an example subsystem. */
-public class JUSTShoot extends CommandBase {
+public class OnlyShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Shooter m_shooter;
-  private Timer spinUpTime = new Timer();
-  public JUSTShoot(Shooter shooter) {
+
+  public OnlyShoot(Shooter shooter) {
     m_shooter = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
@@ -22,7 +21,7 @@ public class JUSTShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.runMotors();
+    m_shooter.runShooters();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,7 +32,7 @@ public class JUSTShoot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.stopShooter();
+    m_shooter.stopShooters();
   }
 
   // Returns true when the command should end.
