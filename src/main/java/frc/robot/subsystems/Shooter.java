@@ -16,8 +16,9 @@ public class Shooter extends SubsystemBase {
   private final WPI_TalonFX motor8; // we should probably change these names once we learn more
     private final WPI_TalonFX motor9; // we should probably change these names once we learn more
 
+  private double proportionVolt = 1.1;
   private double speed9 = 0.85;
-  private double speed8 = speed9 * 1.1;
+  private double speed8 = speed9 * proportionVolt;
 
 
   public Shooter() {
@@ -46,6 +47,13 @@ public class Shooter extends SubsystemBase {
     motor8.set(ControlMode.PercentOutput, speed8);
   }
 
+  public double getProportionVolt() {
+    return proportionVolt;
+  }
+
+  public void setProportionVolt(double newProp) {
+    proportionVolt = newProp;
+  }
 
   public double getSpeed8() {
       return speed8;
@@ -77,6 +85,7 @@ public class Shooter extends SubsystemBase {
 
     builder.addDoubleProperty("speed 8", this::getSpeed8, null);
     builder.addDoubleProperty("speed 9", this::getSpeed9, null);
+    builder.addDoubleProperty("proportion speed", this::getProportionVolt, this::setProportionVolt);
 
   }
 
