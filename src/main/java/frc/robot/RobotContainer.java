@@ -9,14 +9,12 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.manipulator.Index;
-import frc.robot.commands.manipulator.JUSTShoot;
-import frc.robot.commands.manipulator.Shoot;
-import frc.robot.commands.framework.Autos;
+import frc.robot.commands.Index;
+import frc.robot.commands.JUSTShoot;
+import frc.robot.commands.Shoot;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Indexers;
 import frc.robot.subsystems.Shooter;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -69,8 +67,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-
-    new JoystickButton(m_WeaponsGamepad, 1).whileTrue(new AutoZeroExtensionArm(m_extension));
     //new POVButton(m_WeaponsGamepad, Constants.XBOXButtons.LST_POV_N).whileTrue(new DumbExtend(m_extension, this));
     //new POVButton(m_WeaponsGamepad, Constants.XBOXButtons.LST_POV_S).whileTrue(new DumbRetract(m_extension, this));
     new JoystickButton(m_WeaponsGamepad, 1).whileTrue(new Shoot(m_shooter, m_indexer));
