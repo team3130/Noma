@@ -16,36 +16,34 @@ public class Shooter extends SubsystemBase {
   private final WPI_TalonFX motor8; // we should probably change these names once we learn more
     private final WPI_TalonFX motor9; // we should probably change these names once we learn more
 
-  private double speed8 = 0.85;
-    private double speed9 = 0.85;
+  private double speed9 = 0.85;
+  private double speed8 = speed9 * 1.1;
 
 
-    public Shooter() {
+  public Shooter() {
     motor8 = new WPI_TalonFX(9);
     motor9 = new WPI_TalonFX(8);
 
     motor8.configFactoryDefault();
-      motor9.configFactoryDefault();
+    motor9.configFactoryDefault();
 
-      motor8.setNeutralMode(NeutralMode.Coast);
-      motor9.setNeutralMode(NeutralMode.Coast);
+    motor8.setNeutralMode(NeutralMode.Coast);
+    motor9.setNeutralMode(NeutralMode.Coast);
 
-      motor9.setInverted(true);
+    motor9.setInverted(true);
   }
 
   public void runMotor8() {
-      motor8.set(ControlMode.PercentOutput, speed8);
+    motor8.set(ControlMode.PercentOutput, speed8);
   }
 
-    public void runMotor9() {
-        motor9.set(ControlMode.PercentOutput, speed9);
-      motor8.set(ControlMode.PercentOutput, speed8);
-    }
+  public void runMotor9() {
+    motor9.set(ControlMode.PercentOutput, speed9);
+  }
 
   public void runMotors() {
     motor9.set(ControlMode.PercentOutput, speed9);
     motor8.set(ControlMode.PercentOutput, speed8);
-
   }
 
 
