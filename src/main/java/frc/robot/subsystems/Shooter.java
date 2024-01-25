@@ -62,6 +62,14 @@ public class Shooter extends SubsystemBase {
         return speed9;
     }
 
+    public double getVelocityMotor8() {
+      return motor8.getSelectedSensorVelocity();
+    }
+
+    public double getVelocityMotor9() {
+        return motor9.getSelectedSensorVelocity();
+    }
+
 
     public void setSpeed8(double x) {
       speed8 = x;
@@ -86,6 +94,8 @@ public class Shooter extends SubsystemBase {
     builder.addDoubleProperty("speed 8", this::getSpeed8, null);
     builder.addDoubleProperty("speed 9", this::getSpeed9, null);
     builder.addDoubleProperty("proportion speed", this::getProportionVolt, this::setProportionVolt);
+    builder.addDoubleProperty("8 real velocity", this::getVelocityMotor8, null);
+    builder.addDoubleProperty("9 real velocity", this::getVelocityMotor9, null);
 
   }
 
