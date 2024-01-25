@@ -4,35 +4,45 @@
 
 package frc.robot.commands.manipulator;
 
-import frc.robot.subsystems.Manipulator;
+import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.Indexers;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class OuttakeCube extends CommandBase {
+public class Shoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Manipulator m_manipulator;
-
-  public OuttakeCube(Manipulator manipulator) {
-    m_manipulator = manipulator;
+  private final Shooter m_shooter;
+  private final Indexers m_indexer;
+  private Timer spinUpTime = new Timer();
+  public Shoot(Shooter shooter, Indexers index) {
+    m_shooter = shooter;
+    m_indexer = index;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(manipulator);
+    addRequirements(shooter, index);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_manipulator.runMotor8();
-    m_manipulator.runMotor9();
+    spinUpTime.reset();
+    spinUpTime.start();
+    m_shooter.runMotors();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (spinUpTime.hasElapsed(0.5)){
+      m_indexer.runMotors();
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_manipulator.StopManipulator();
+    m_shooter.StopShooter();
+    m_indexer.StopShooter();
   }
 
   // Returns true when the command should end.

@@ -9,11 +9,13 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.manipulator.OuttakeCube;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.commands.manipulator.Index;
+import frc.robot.commands.manipulator.JUSTShoot;
+import frc.robot.commands.manipulator.Shoot;
 import frc.robot.commands.framework.Autos;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.Indexers;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -27,7 +29,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Manipulator m_manipulator = new Manipulator();
+  private final Shooter m_shooter = new Shooter();
+  private final Indexers m_indexer = new Indexers();
+
   public static XboxController m_DriverGamepad = new XboxController(0);
   public static Joystick m_WeaponsGamepad = new Joystick(1);
 
@@ -45,12 +49,13 @@ public class RobotContainer {
   }
 
 
-  public Manipulator getManipulator() {
-    return m_manipulator;
+  public Shooter getManipulator() {
+    return m_shooter;
   }
   public void vomitShuffleBoardData() {
       ShuffleboardTab tab = Shuffleboard.getTab("Subsystems");
-      tab.add(m_manipulator);
+      tab.add(m_shooter);
+      tab.add(m_indexer);
   }
 
 
@@ -65,10 +70,13 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    new JoystickButton(m_WeaponsGamepad, 1).whileTrue(new AutoZeroExtensionArm(m_extension));
-    //new POVButton(m_WeaponsGamepad, Constants.XBOXButtons.LST_POV_N).whileTrue(new DumbExtend(m_extension, this));
+   //new POVButton(m_WeaponsGamepad, Constants.XBOXButtons.LST_POV_N).whileTrue(new DumbExtend(m_extension, this));
     //new POVButton(m_WeaponsGamepad, Constants.XBOXButtons.LST_POV_S).whileTrue(new DumbRetract(m_extension, this));
-    new JoystickButton(m_WeaponsGamepad, 6).whileTrue(new OuttakeCube(getManipulator()));
+    new JoystickButton(m_WeaponsGamepad, 1).whileTrue(new Shoot(m_shooter, m_indexer));
+    new JoystickButton(m_WeaponsGamepad, 2).whileTrue(new Index( m_indexer));
+    new JoystickButton(m_WeaponsGamepad, 3).whileTrue(new JUSTShoot( m_shooter));
+
+
   }
 
   /**
