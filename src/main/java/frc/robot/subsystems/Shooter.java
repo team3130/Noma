@@ -28,6 +28,7 @@ public class Shooter extends SubsystemBase {
   // Note: phoenix 6 velocity is rotations / second
   final VelocityVoltage velocityRequest = new VelocityVoltage(0).withSlot(0); // class instance
   final double flyWheelVelocity = 8;
+  final
 
   /*
   alternative way
@@ -40,6 +41,7 @@ public class Shooter extends SubsystemBase {
   private double kP = 0.11;
   private double kI = 0;
   private double kD = 0;
+  private double feedForwardVolt;
 
   public Shooter() {
   leftFlywheel9 = new TalonFX(9);
@@ -82,11 +84,13 @@ public class Shooter extends SubsystemBase {
 
   public void setFlywheelVelocity() {
     // velocityRequest.Slot = 0; // this is probably redudant now
-    leftFlywheel9.setControl(velocityRequest.withVelocity(flyWheelVelocity));
+    leftFlywheel9.setControl(velocityRequest.withVelocity(flyWheelVelocity).withFeedForward(feedForwardVolt));
 
     // ALT way: set velocity to 8 rps, add 0.5 V to overcome gravity
     // m_talonFX.setControl(velocityRequest.withVelocity(8).withFeedForward(0.5));
   }
+
+
 
   public double getLeftFlyVelocity() {
      return leftFlywheel9.getVelocity().getValue(); // rotations per second
