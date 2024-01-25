@@ -26,6 +26,8 @@ public class VelocityShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // configureVelocitySlot();
+    shooter.updateVelocityPID();
     shooter.setFlywheelVelocity();
   }
 

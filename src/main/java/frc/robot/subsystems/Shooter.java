@@ -26,7 +26,7 @@ public class Shooter extends SubsystemBase {
   Slot0Configs slot0Configs; // gains for specific slot
 
   // Note: phoenix 6 velocity is rotations / second
-  final VelocityVoltage velocityRequest = new VelocityVoltage(0); // class instance
+  final VelocityVoltage velocityRequest = new VelocityVoltage(0).withSlot(0); // class instance
   final double flyWheelVelocity = 8;
 
   /*
@@ -53,6 +53,7 @@ public class Shooter extends SubsystemBase {
   rightFlywheel8.setInverted(true);
 
   slot0Configs = new Slot0Configs(); // gains for specific slot
+
   slot0Configs.kS = kS; // Add 0.05 V output to overcome static friction
 
   slot0Configs.kV = kV; // 1/(rps) - A velocity target of 1 rps results in 0.12 V output
@@ -62,6 +63,17 @@ public class Shooter extends SubsystemBase {
   // leftFlywheel9.getConfigurator().apply(new Slot0Configs());
   }
 
+  /*
+  public void configureVelocitySlot() {
+    slot0Configs.kS = kS; // Add 0.05 V output to overcome static friction
+
+    slot0Configs.kV = kV; // 1/(rps) - A velocity target of 1 rps results in 0.12 V output
+    slot0Configs.kP = kP; // 1/rps - An error of 1 rps results in 0.11 V output
+    slot0Configs.kI = kI; // 1/rot - output per unit of integrated error in velocity (output/rotation)
+    slot0Configs.kD = kD; // output per unit of error derivative in velocity (output/ (rps/s))
+  }
+   */
+
   public void updateVelocityPID() {
     leftFlywheel9.getConfigurator().apply(slot0Configs);
     rightFlywheel8.getConfigurator().apply(slot0Configs);
@@ -69,7 +81,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setFlywheelVelocity() {
-    velocityRequest.Slot = 0;
+    // velocityRequest.Slot = 0; // this is probably redudant now
     leftFlywheel9.setControl(velocityRequest.withVelocity(flyWheelVelocity));
 
     // ALT way: set velocity to 8 rps, add 0.5 V to overcome gravity
@@ -115,11 +127,11 @@ public class Shooter extends SubsystemBase {
   public double getkP() { return kP; }
   public double getkI() { return kI; }
   public double getkD() { return kD; }
-  public void setkS(double newS) { kS = newS; }
-  public void setkV(double newV) { kV = newV; }
-  public void setkP(double newP) { kP = newP; }
-  public void setkI(double newI) { kI = newI; }
-  public void setkD(double newD) { kD = newD; }
+  public void setkS(double newS) { slot0Configs.kS = newS; }
+  public void setkV(double newV) { slot0Configs.kV = newV; }
+  public void setkP(double newP) { slot0Configs.kP = newP; }
+  public void setkI(double newI) { slot0Configs.kI = newI; }
+  public void setkD(double newD) { slot0Configs.kD = newD; }
 
   @Override
   public void initSendable(SendableBuilder builder) {
