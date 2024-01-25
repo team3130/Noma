@@ -51,9 +51,9 @@ public class Shooter extends SubsystemBase {
 
   slot0Configs = new Slot0Configs(); // gains for specific slot
   slot0Configs.kS = 0.05; // Add 0.05 V output to overcome static friction
-  slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-  slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
-  slot0Configs.kI = 0; // output per unit of integrated error in velocity (output/rotation)
+  slot0Configs.kV = 0.12; // 1/(rps) - A velocity target of 1 rps results in 0.12 V output
+  slot0Configs.kP = 0.11; // 1/rps - An error of 1 rps results in 0.11 V output
+  slot0Configs.kI = 0; // 1/rot - output per unit of integrated error in velocity (output/rotation)
   slot0Configs.kD = 0; // output per unit of error derivative in velocity (output/ (rps/s))
   leftFlywheel9.getConfigurator().apply(new Slot0Configs());
   }
@@ -64,6 +64,26 @@ public class Shooter extends SubsystemBase {
 
     // ALT way: set velocity to 8 rps, add 0.5 V to overcome gravity
     // m_talonFX.setControl(velocityRequest.withVelocity(8).withFeedForward(0.5));
+  }
+
+  public double getLeftFlyVelocity() {
+     return leftFlywheel9.getVelocity().getValue(); // rotations per second
+  }
+
+  public double getRightFlyVelocity() {
+    return rightFlywheel8.getVelocity().getValue(); // rotations per second
+  }
+
+  public double getRightFlyVoltSupply() {
+    return rightFlywheel8.getSupplyVoltage().getValue();
+  }
+
+  public double getLeftFlywheelVoltSupply() {
+    return leftFlywheel9.getSupplyVoltage().getValue();
+  }
+
+  public double getRightFlyVoltSupply() {
+    return rightFlywheel8.getSupplyVoltage().getValue();
   }
 
   public void runMotors() {
@@ -84,8 +104,11 @@ public class Shooter extends SubsystemBase {
   public void initSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("Shooter");
 
-    builder.addDoubleProperty("speed 8", this::getSpeed8, null);
-    builder.addDoubleProperty("speed 9", this::getSpeed9, null);
+    builder.addDoubleProperty("velocity left", this::getLeftFlyVelocity, null);
+    builder.addDoubleProperty("velocity right", this::getRightFlyVelocity, null);
+
+    builder.addDoubleProperty("voltage supply left", this::getLeftFlywheelVoltSupply, null);
+    builder.addDoubleProperty("voltage supply right", this::getRightFlyVoltSupply, null);
   }
 
   public double getSpeed8() {
