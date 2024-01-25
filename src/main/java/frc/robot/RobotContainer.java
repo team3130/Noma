@@ -70,7 +70,8 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-   //new POVButton(m_WeaponsGamepad, Constants.XBOXButtons.LST_POV_N).whileTrue(new DumbExtend(m_extension, this));
+    new JoystickButton(m_WeaponsGamepad, 1).whileTrue(new AutoZeroExtensionArm(m_extension));
+    //new POVButton(m_WeaponsGamepad, Constants.XBOXButtons.LST_POV_N).whileTrue(new DumbExtend(m_extension, this));
     //new POVButton(m_WeaponsGamepad, Constants.XBOXButtons.LST_POV_S).whileTrue(new DumbRetract(m_extension, this));
     new JoystickButton(m_WeaponsGamepad, 1).whileTrue(new Shoot(m_shooter, m_indexer));
     new JoystickButton(m_WeaponsGamepad, 2).whileTrue(new Index( m_indexer));
@@ -79,18 +80,4 @@ public class RobotContainer {
 
   }
 
-  /**
-   * Schedules a command to zero the extension arm
-   */
-
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
-  }
 }
