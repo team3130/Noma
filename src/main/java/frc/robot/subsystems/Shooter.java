@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -37,8 +36,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void runShooters() {
-    leftFlywheel9.setControl(leftFlywheelVoltReq.withOutput(leftFlywheelVolt));
-    rightFlywheel8.setControl(rightFlywheelVoltReq.withOutput(rightFlywheelVolt));
+    leftFlywheel9.setControl(leftFlywheelVoltReq.withOutput(8));
+    rightFlywheel8.setControl(rightFlywheelVoltReq.withOutput(8));
   }
 
   public void stopShooters() {

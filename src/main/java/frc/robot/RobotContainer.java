@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.OnlyIndex;
 import frc.robot.commands.OnlyShoot;
 import frc.robot.commands.Shoot;
-import frc.robot.commands.VelocityShoot;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
@@ -73,7 +72,6 @@ public class RobotContainer {
     new JoystickButton(m_WeaponsGamepad, Constants.Buttons.LST_BTN_A).whileTrue(new Shoot(m_shooter, m_indexer));
     new JoystickButton(m_WeaponsGamepad, Constants.Buttons.LST_BTN_B).whileTrue(new OnlyIndex( m_indexer));
     new JoystickButton(m_WeaponsGamepad, Constants.Buttons.LST_BTN_X).whileTrue(new OnlyShoot( m_shooter));
-    new JoystickButton(m_WeaponsGamepad, Constants.Buttons.LST_BTN_Y).whileTrue(new VelocityShoot(m_shooter));
 
   }
 
